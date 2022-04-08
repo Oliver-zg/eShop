@@ -16,6 +16,7 @@ Page({
     page: 1,
     limit: 20,
     iscard: true,
+    list: [],
   },
   // 用户点击右上角分享给好友,要先在分享好友这里设置menus的两个参数,才可以分享朋友圈
   onShareAppMessage: function () {
@@ -125,7 +126,7 @@ Page({
   // 获取列表
   getList() {
     let that = this
-    const { page, limit } = that.data
+    const { page, limit, list } = that.data
     // if (that.data.collegeCur == -2) {
     //   var collegeid = _.neq(-2) //除-2之外所有
     // } else {
@@ -133,9 +134,7 @@ Page({
     // }
     wx.request({
       url: config.apis.getCommodityList + '/' + page + '/' + limit + '?token=' + app.token,
-      data: {
-        pageCommodityCondition: {},
-      },
+      data: {},
       method: 'POST',
       // header: {}, // 设置请求的 header
       success: function (res) {
@@ -147,7 +146,11 @@ Page({
             title: message,
             duration: 1000,
           })
+          return false
         }
+        that.setData({
+          list: data.rows, // 商品列表
+        })
       },
       fail: function () {
         // fail

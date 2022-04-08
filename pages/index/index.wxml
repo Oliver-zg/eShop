@@ -47,11 +47,11 @@
 <view hidden="{{!iscard}}">
   <view class="card_grid" wx:if="{{list.length>0}}">
     <block wx:for="{{list}}" wx:key="_id">
-      <view class="card_one" bindtap="detail" data-id="{{item._id}}">
-        <image lazy-load class="card_poster" src="{{item.img}}"></image>
-        <view class="card_title text-cut">{{item.name}}</view>
+      <view class="card_one" bindtap="detail" data-id="{{item.commodityId}}">
+        <image lazy-load class="card_poster" src="{{item.commodityCover}}"></image>
+        <view class="card_title text-cut">{{item.commodityName}}</view>
         <view class="card_between">
-          <view class="card_price">￥{{item.money}}元</view>
+          <view class="card_price">￥{{item.commodityPrice}}</view>
           <image lazy-load class="card_buy" src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/buy.png"></image>
         </view>
       </view>
