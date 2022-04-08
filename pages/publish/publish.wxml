@@ -53,7 +53,7 @@
             <view class="b_picker">
               <block wx:if="{{cids!==-1}}">当前选择：{{college[cids].name}}</block>
               <block wx:if="{{cids==-1}}">请选择用途类别</block>
-              <image class="right" src="/images/right.png" />
+              <image class="right" src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/right.png" />
             </view>
           </picker>
         </view>
@@ -93,7 +93,7 @@
 <!-- 步骤二 -->
 <van-transition show="{{ show_c }}" name="fade-right" custom-class="block" duration="{{entime}}">
   <view class="c_contain" style="height:{{systeminfo.windowHeight-66.8}}px">
-    <image class="c_success" src="/images/success.png"></image>
+    <image class="c_success" src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/success.png"></image>
     <view class="c_title">恭喜您 发布成功</view>
     <view class="c_des">订单的实时状态请在我的主页查看</view>
     <view class="c_see" bindtap="detail">查看详情</view>

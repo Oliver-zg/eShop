@@ -1,4 +1,4 @@
-const db = wx.cloud.database()
+// const db = wx.cloud.database()
 const app = getApp()
 const config = require('../../config.js')
 const MAX_IMG_NUM = 5
@@ -34,8 +34,8 @@ Page({
       dura: 30,
       price: 15,
       place: '',
-      chooseDelivery: 0,
-      cids: '-1', //类别选择的默认值
+      chooseDelivery: 0, // 选择发货方式
+      cids: '-1', //类别选择
       show_b: true,
       show_c: false,
       active: 0,
@@ -238,13 +238,13 @@ Page({
       })
       return false
     }
-    if (that.data.imgUrl == '') {
-      wx.showToast({
-        title: '请选择图片',
-        icon: 'none',
-      })
-      return false
-    }
+    // if (that.data.imgUrl == '') {
+    //   wx.showToast({
+    //     title: '请选择图片',
+    //     icon: 'none',
+    //   })
+    //   return false
+    // }
     if (that.data.notes == '') {
       wx.showToast({
         title: '请输入相关的备注信息（如取货时间，新旧程度等）',
@@ -252,7 +252,7 @@ Page({
       })
       return false
     }
-    const { fileServerPaths } = that.data
+    const { fileServerPaths, describe, good, price, cids, chooseDelivery, notes } = that.data
     wx.showModal({
       title: '温馨提示',
       content: '经检测您填写的信息无误，是否马上发布？',
@@ -260,21 +260,43 @@ Page({
         wx.request({
           url: config.apis.publishCommodity,
           data: {
-            commodityAddDTO: {
-              commodityCover: fileServerPaths,
-              commodityDescription: describe,
-              commodityName: good,
-              commodityPrice: price,
-              commodityStatus: 'string',
-              commodity_category: cids,
-              commodity_pickup_way: chooseDelivery,
-              commodity_remark: notes,
-            },
+            commodityCover: fileServerPaths.join(','),
+            commodityDescription: describe,
+            commodityName: good,
+            commodityPrice: price,
+            commodityStatus: 'Normal',
+            commodityCategory: cids,
+            commodityPickupWay: chooseDelivery,
+            commodityRemark: notes,
           },
-          method: 'PUT', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-          // header: {}, // 设置请求的 header
+          header: {
+            token: app.token,
+          },
+          method: 'PUT',
           success: function (res) {
             console.log('商品发布', res)
+            const { code, data } = res.data
+            if (code != 20000) {
+              wx.showToast({
+                icon: 'none',
+                title: data.message,
+                duration: 1000,
+              })
+              return false
+            }
+            that.setData({
+              show_b: false,
+              show_c: true,
+              active: 2,
+              // detail_id: e._id,
+              detail_id: data.id,
+            })
+            wx.showToast({
+              title: '正在上传...',
+              icon: 'loading',
+              mask: true,
+              duration: 1000,
+            })
           },
           fail: function () {
             // fail
@@ -283,72 +305,72 @@ Page({
             // complete
           },
         })
-        if (res.confirm) {
-          db.collection('publish').add({
-            data: {
-              status: 0, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
-              price: that.data.price, //售价
-              //分类
-              kindid: that.data.kindid, //区别通用还是用途
-              collegeid: that.data.cids, //学院id，-1表示通用类
-              deliveryid: that.data.chooseDelivery, //0自1配
-              place: that.data.place, //选择自提时地址
-              notes: that.data.notes, //备注
-              bookinfo: {
-                pic: that.data.imgUrl,
-                good: that.data.good,
-                describe: that.data.describe,
-                imgs: that.data.imgUrl,
-              },
-              key: that.data.good,
-            },
-            success(e) {
-              console.log(e)
-              that.setData({
-                show_b: false,
-                show_c: true,
-                active: 2,
-                detail_id: e._id,
-              })
-              wx.showToast({
-                title: '正在上传...',
-                icon: 'loading',
-                mask: true,
-                duration: 1000,
-              })
-              setTimeout(function () {
-                //判断卖家是否已经上传了
-                if (that.data.isExist == false) {
-                  wx.showModal({
-                    title: '物品发布成功',
-                    content: '您未上传赞赏码用于交易，是否现在去上传？',
-                    showCancel: true, //是否显示取消按钮
-                    cancelText: '稍后再传', //默认是“取消”
-                    cancelColor: '#fbbd08', //取消文字的颜色
-                    success(res) {
-                      if (res.confirm) {
-                        wx.navigateTo({
-                          url: '/pages/appreciateCode/appreciateCode',
-                        })
-                      }
-                    },
-                  })
-                }
-              }, 2000)
+        // if (res.confirm) {
+        //   db.collection('publish').add({
+        //     data: {
+        //       status: 0, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
+        //       price: that.data.price, //售价
+        //       //分类
+        //       kindid: that.data.kindid, //区别通用还是用途
+        //       collegeid: that.data.cids, //学院id，-1表示通用类
+        //       deliveryid: that.data.chooseDelivery, //0自1配
+        //       place: that.data.place, //选择自提时地址
+        //       notes: that.data.notes, //备注
+        //       bookinfo: {
+        //         pic: that.data.imgUrl,
+        //         good: that.data.good,
+        //         describe: that.data.describe,
+        //         imgs: that.data.imgUrl,
+        //       },
+        //       key: that.data.good,
+        //     },
+        //     success(e) {
+        //       console.log(e)
+        //       that.setData({
+        //         show_b: false,
+        //         show_c: true,
+        //         active: 2,
+        //         detail_id: e._id,
+        //       })
+        //       wx.showToast({
+        //         title: '正在上传...',
+        //         icon: 'loading',
+        //         mask: true,
+        //         duration: 1000,
+        //       })
+        //       setTimeout(function () {
+        //         //判断卖家是否已经上传了
+        //         if (that.data.isExist == false) {
+        //           wx.showModal({
+        //             title: '物品发布成功',
+        //             content: '您未上传赞赏码用于交易，是否现在去上传？',
+        //             showCancel: true, //是否显示取消按钮
+        //             cancelText: '稍后再传', //默认是“取消”
+        //             cancelColor: '#fbbd08', //取消文字的颜色
+        //             success(res) {
+        //               if (res.confirm) {
+        //                 wx.navigateTo({
+        //                   url: '/pages/appreciateCode/appreciateCode',
+        //                 })
+        //               }
+        //             },
+        //           })
+        //         }
+        //       }, 2000)
 
-              that.setData({
-                show_b: false,
-                show_c: true,
-                active: 2,
-                detail_id: e._id,
-              })
-              //滚动到顶部
-              wx.pageScrollTo({
-                scrollTop: 0,
-              })
-            },
-          })
-        }
+        //       that.setData({
+        //         show_b: false,
+        //         show_c: true,
+        //         active: 2,
+        //         detail_id: e._id,
+        //       })
+        //       //滚动到顶部
+        //       wx.pageScrollTo({
+        //         scrollTop: 0,
+        //       })
+        //     },
+        //   })
+        // }
       },
     })
   },
@@ -380,6 +402,12 @@ Page({
   doUpload(filePath) {
     console.log('filePath', filePath)
     const that = this
+    wx.showToast({
+      title: '正在上传...',
+      icon: 'loading',
+      mask: true,
+      duration: 1700,
+    })
     wx.uploadFile({
       url: config.apis.uploadFile,
       filePath: filePath,
@@ -390,8 +418,10 @@ Page({
       },
       // header: {}, // 设置请求的 header
       success: function (res) {
+        // wx.hideToast()
         console.log('doUpload', JSON.parse(res.data))
         const { code, message, data } = JSON.parse(res.data)
+        // 非20000返回错误
         if (code != 20000) {
           wx.showToast({
             icon: 'none',
