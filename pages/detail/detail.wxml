@@ -92,7 +92,12 @@
     <text>我的</text>
   </view>
   <view class="t_card" bindtap="collect">
-    <image src="/images/tabbar/my.png"></image>
+    <view class="" hidden="{{!isFavorite}}">
+      <image src="/images/collected.png"></image>
+    </view>
+    <view class="" hidden="{{isFavorite}}">
+      <image src="/images/collect.png"></image>
+    </view>
     <text>收藏</text>
   </view>
   <view class="buy_box">

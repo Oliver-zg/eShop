@@ -4,7 +4,8 @@ let apis = {
   login: host + '/user/miniLogin',
   uploadFile: host + '/oss',
   publishCommodity: host + '/commodity',
-  getCommodityList: host + '/commodity/',
+  getCommodityList: host + '/commodity',
+  favorites: host + '/favorites',
 }
 
 let data = {
@@ -79,41 +80,47 @@ let data = {
   ],
   slist: [
     {
-      img: '/images/slist/1.jpg',
-      id: 1,
-      money: '2000',
-      name: 'vivo手机',
+      commodityCover: '/images/slist/1.jpg',
+      commodityId: 1,
+      commodityPrice: '2000',
+      commodityName: 'vivo手机',
     },
     {
-      img: '/images/slist/2.jpg',
-      id: 2,
-      money: '200',
-      name: '多功能电饭煲',
+      commodityCover: '/images/slist/1.jpg',
+      commodityId: 1,
+      commodityPrice: '2000',
+      commodityName: 'vivo手机',
     },
-    {
-      img: '/images/slist/3.jpg',
-      id: 3,
-      money: '100',
-      name: '潮流背包男',
-    },
-    {
-      img: '/images/slist/4.jpg',
-      id: 4,
-      money: '100',
-      name: '时尚卫衣女',
-    },
-    {
-      img: '/images/slist/5.jpg',
-      id: 5,
-      money: '2500',
-      name: '苹果手机',
-    },
-    {
-      img: '/images/slist/7.jpg',
-      id: 6,
-      money: '500',
-      name: '多功能儿童椅',
-    },
+    // {
+    //   img: '/images/slist/2.jpg',
+    //   id: 2,
+    //   money: '200',
+    //   name: '多功能电饭煲',
+    // },
+    // {
+    //   img: '/images/slist/3.jpg',
+    //   id: 3,
+    //   money: '100',
+    //   name: '潮流背包男',
+    // },
+    // {
+    //   img: '/images/slist/4.jpg',
+    //   id: 4,
+    //   money: '100',
+    //   name: '时尚卫衣女',
+    // },
+    // {
+    //   img: '/images/slist/5.jpg',
+    //   id: 5,
+    //   money: '2500',
+    //   name: '苹果手机',
+    // },
+    // {
+    //   img: '/images/slist/7.jpg',
+    //   id: 6,
+    //   money: '500',
+    //   name: '多功能儿童椅',
+    // },
   ],
   jlist: [
     {

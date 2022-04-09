@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    id: '',
     first_title: true,
     place: '',
     roomID: '',
@@ -20,11 +21,13 @@ Page({
     buyerInfo: [],
     isExist: Boolean,
     address: '',
+    isFavorite: false,
   },
   onLoad(e) {
     obj = e
     this.getuserdetail()
     this.data.id = e.scene
+    console.log('idddd', e.scene)
     this.getPublish(e.scene)
     if (app.openid) {
       this.setData({
@@ -139,6 +142,36 @@ Page({
     that.setData({
       first_title: e.currentTarget.dataset.id,
     })
+  },
+  collect() {
+    let that = this
+    const { id, isFavorite } = that.data
+    wx.showLoading({
+      title: '确认中',
+    })
+    wx.request({
+      url: config.apis.favorites + '/' + id,
+      data: {},
+      method: isFavorite ? 'DELETE' : 'PUT',
+      header: {
+        token: app.token,
+      },
+      success: function (res) {
+        wx.hideLoading()
+        console.log('收藏结果', res)
+        const { code, message, data } = res.data
+        if (code != 20000) {
+          wx.showToast({
+            icon: 'none',
+            title: message,
+            duration: 1000,
+          })
+          return false
+        }
+        that.getPublish()
+      },
+    })
+    wx.hideLoading()
   },
   //获取发布信息
   getPublish(e) {

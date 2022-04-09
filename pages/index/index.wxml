@@ -46,7 +46,7 @@
 <!-- 宫格显示 -->
 <view hidden="{{!iscard}}">
   <view class="card_grid" wx:if="{{list.length>0}}">
-    <block wx:for="{{list}}" wx:key="_id">
+    <block wx:for="{{list}}" wx:key="commodityId">
       <view class="card_one" bindtap="detail" data-id="{{item.commodityId}}">
         <image lazy-load class="card_poster" src="{{item.commodityCover}}"></image>
         <view class="card_title text-cut">{{item.commodityName}}</view>
@@ -62,15 +62,15 @@
 <view hidden="{{iscard}}">
   <block wx:if="{{list.length>0}}">
     <block wx:for="{{list}}" wx:key="_id">
-      <view class="list_box" bindtap="detail" data-id="{{item._id}}">
-        <image lazy-load class="list_poster" src="{{item.bookinfo.imgs[0]}}"></image>
+      <view class="list_box" bindtap="detail" data-id="{{item.commodityId}}">
+        <image lazy-load class="list_poster" src="{{item.commodityCover}}"></image>
         <view class="list_content">
           <view class="list_word">
-            <view class="list_title text-cut">{{item.bookinfo.good}}</view>
+            <view class="list_title text-cut">{{item.commodityName}}</view>
           </view>
           <view class="list_between">
-            <view class="list_price">￥20元</view>
-            <view class="list_time">{{morejs.timelog(item.creat )}}发布</view>
+            <view class="list_price">￥{{item.commodityPrice}}</view>
+            <!-- <view class="list_time">{{morejs.timelog(item.creat )}}发布</view> -->
           </view>
         </view>
       </view>
