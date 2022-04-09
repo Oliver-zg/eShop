@@ -394,3 +394,15 @@
       width: 400rpx;
       height: 400rpx;
 }
+
+.bannerimage{
+      width: 100%;
+      margin-top: -50rpx;
+}
+.imagedetail{
+      width: 90%;
+      margin: 10rpx;
+
+}
+
+  

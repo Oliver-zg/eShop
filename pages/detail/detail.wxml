@@ -1,10 +1,15 @@
 <wxs src="../../common.wxs" module="morejs" />
 <view class="top_contain">
   <!-- 轮播图 -->
-  <swiper indicator-dots='true' autoplay='true' interval='5000' duration='500' circular="true">
-    <swiper-item class="image">
+  <swiper indicator-dots='true' autoplay='true' interval='5000' duration='500' circular="true" >
+    <block wx:for="{{imageUrls}}" wx:key="id">
+      <swiper-item>
+        <image lazy-load src="{{item}}" bindtap="img" data-web="{{item}}" mode="aspectFill" class="bannerimage" />
+      </swiper-item>
+    </block>
+    <!-- <swiper-item class="image">
       <image src="{{commodity.commodityCover}}" mode="scaleToFill" bindtap="img"></image>
-    </swiper-item>
+    </swiper-item> -->
   </swiper>
   <!-- <view class="title text-cut">{{publishinfo.bookinfo.good}}</view> -->
   <view class="title text-cut">{{commodity.commodity_name}}</view>
@@ -56,8 +61,9 @@
   </view>
   <view class="notes_box" wx:if="{{commodity.commodityRemark!==''}}">
     <view class="notes">
-      <view class="notes_text">备注信息:</view>
-      <text class="notes_text" selectable="true">{{commodity.commodityRemark}}</text>
+      <view class="notes_text">留言:</view>
+      <input bindinput="msgInput" placeholder="给卖家留言"></input>
+      <!-- <text class="notes_text" selectable="true">{{commodity.commodityRemark}}</text> -->
     </view>
   </view>
 </view>
@@ -65,15 +71,24 @@
 <view hidden="{{first_title}}">
   <view class="detail_contain">
     <view class="detail_card">
-      <view class="detail_title">物品描述</view>
+      <view class="detail_title">物品描述:</view>
       <view class="detail_content">{{commodity.commodityDescription}}</view>
     </view>
+    <view class="detail_card">
+      <view class="detail_title">卖家备注:</view>
+      <view class="detail_content">{{commodity.commodityRemark}}</view>
+    </view>
     <!-- 物品详情预览 -->
-    <!-- <block class="image" wx:for="{{publishinfo.bookinfo.imgs}}" wx:key="index">
-      <view>
-        <image src="{{item}}" mode="scaleToFill" bindtap="img" data-src="{{item}}"></image>
+    <view class="detail_card">
+      <view class="detail_title">图片预览:</view>
+      <view class="detail_content">
+        <block wx:for="{{imageUrls}}" wx:key="index">
+          <view>
+            <image src="{{item}}" mode="scaleToFill" bindtap="img" data-src="{{item}}" class="imagedetail"></image>
+          </view>
+        </block>
       </view>
-    </block> -->
+    </view>
   </view>
 </view>
 <view style="height: 96rpx;"></view>
@@ -88,22 +103,21 @@
     <image src="/images/tabbar/my.png"></image>
     <text>我的</text>
   </view>
-  <view class="t_card" bindtap="collect">
-    <view class="" hidden="{{!isFavorite}}">
-      <image src="/images/collected.png"></image>
+  <view class="t_card" bindtap="collect" >
+    <view class="" hidden="{{!isFavorite}}" >
+      <image src="/images/collected.png" ></image>
     </view>
     <view class="" hidden="{{isFavorite}}">
-      <image src="/images/collect.png"></image>
+      <image src="/images/collect.png" ></image>
     </view>
     <text>收藏</text>
   </view>
   <view class="buy_box">
-    <!-- <view class="buy shadow" bindtap="buy">{{publishinfo.status==0?'立即购买':(publishinfo.status==1?'刚刚被抢光了':(publishinfo.status==2?'已出售':'已下架'))}}</view> -->
-    <view class="buy shadow" bindtap="buy">立即购买</view>
+    <view class="buy shadow" bindtap="buy">{{commodity.commodityStatus=="Normal"?'立即购买':(commodity.commodityStatus=="Sold"?'已售出':(commodity.commodityStatus=="Draft"?'未发布':'已下架'))}}</view>
   </view>
 </view>
 <!-- 悬浮聊天功能 -->
-<view class="contact_box" bindtap="goo" data-id="{{roomID}}">
+<!-- <view class="contact_box" bindtap="goo" data-id="{{roomID}}">
   <image src="/images/chat.png"></image>
   <view>私聊</view>
-</view>
+</view> -->
