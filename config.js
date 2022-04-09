@@ -6,12 +6,9 @@ let apis = {
   publishCommodity: host + '/commodity',
   getCommodityList: host + '/commodity',
   favorites: host + '/favorites',
-<<<<<<< HEAD
   myPublishedCommodity: host + '/commodity/myPublishedCommodity',
-=======
-  getOtherUserInfo:host+'/user/getOtherUserInfo/',
-  updateUserInfo: host+'/user/updateUserInfo'
->>>>>>> 1ff2eea7f3436ff55152bf6da6755c5866d8afd9
+  getOtherUserInfo: host + '/user/getOtherUserInfo/',
+  updateUserInfo: host + '/user/updateUserInfo',
 }
 
 let data = {
