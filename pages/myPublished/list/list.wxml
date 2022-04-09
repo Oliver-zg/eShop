@@ -1,7 +1,7 @@
 <wxs src="../../../common.wxs" module="morejs" />
 <view class="tab_contain">
   <block wx:for="{{tab}}" wx:key="id">
-    <view class="tab_one" bindtap="changeTab" data-id="{{index}}">
+    <view class="tab_one" bindtap="changeTab" data-id="{{item.id}}">
       <view class="{{tabid==item.id?'tab_on':''}}">{{item.name}}</view>
     </view>
   </block>
@@ -33,10 +33,10 @@
         <view wx:if="{{item.commodityStatus=='Normal'}}" class="cancel" catchtap="delete" data-cid="{{item.commodityId}}">
           删除商品
         </view>
-        <view wx:if="{{item.commodityStatus=='Normal'}}" class="confirm" catchtap="takeDown" data-cid="{{item.commodityId}}">
+        <view wx:if="{{item.commodityStatus=='Normal'}}" class="confirm" catchtap="takeDown" data-status='true' data-cid="{{item.commodityId}}">
           下架商品
         </view>
-        <view wx:if="{{item.commodityStatus=='Draft'}}" class="confirm" catchtap="cancel" data-cid="{{item.commodityId}}">
+        <view wx:if="{{item.commodityStatus=='Draft'}}" class="confirm" catchtap="takeDown" data-status='false' data-cid="{{item.commodityId}}">
           重新上架
         </view>
         <!-- <view class="confirm" catchtap="confirm" data-ord="{{item}}">

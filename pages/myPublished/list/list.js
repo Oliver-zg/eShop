@@ -16,22 +16,18 @@ Page({
     tab: [
       {
         name: '全部',
-        id: 0,
+        id: '',
       },
       {
         name: '已发布',
-        id: 1,
+        id: 'Normal',
       },
       {
         name: '已下架',
-        id: 2,
+        id: 'Draft',
       },
-      // {
-      //       name: '已取消',
-      //       id: 3,
-      // }
     ],
-    tabid: 0,
+    tabid: '',
     detail: [],
     address: '',
   },
@@ -46,9 +42,9 @@ Page({
   //跳转详情页
   godetail(e) {
     let that = this
-    let detail = e.currentTarget.dataset.id
+    let cid = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '/pages/order/detail/detail?id=' + detail,
+      url: '/pages/detail/detail?commodityId=' + cid,
     })
   },
   onShow() {
@@ -67,8 +63,10 @@ Page({
     const { page, limit } = this.data
     const cfg = JSON.parse(config.data)
     wx.request({
-      url: config.apis.myPublishedCommodity + '/' + page + '/' + limit,
-      data: {},
+      url: config.apis.myPublishedCommodity + '/' + page + '/' + limit + `${status !== '' ? '?commodityStatus=' + status : ''}`,
+      // data: {
+      //   commodityStatus: status,
+      // },
       header: {
         token: app.token,
       },
@@ -93,7 +91,6 @@ Page({
     //   list: cfg.slist,
     // })
     wx.hideLoading()
-
     // if (status == 0) {
     //   var statusid = _.neq(0) //除-2之外所有
     // } else {
@@ -118,21 +115,48 @@ Page({
     //   })
   },
   /**
-   * 获取地址
+   * 下架or重新上架商品
    */
   takeDown(e) {
-    console.log('删除商品')
     let that = this
-    let detail = e.currentTarget.dataset.cid
+    let cid = e.currentTarget.dataset.cid
+    let isTakeDown = e.currentTarget.dataset.status
+    console.log('isTakeDown', typeof isTakeDown)
     wx.showModal({
       title: '温馨提示',
-      content: '您确认要下架此商品吗？',
+      content: `您确认要${isTakeDown === 'true' ? '下架' : '重新上架'}此商品吗？`,
       success(res) {
         if (res.confirm) {
           wx.showLoading({
             title: '正在处理',
           })
           // 网络请求
+          wx.request({
+            url: config.apis.operateCommodity,
+            data: {
+              commodityStatus: isTakeDown === 'true' ? 'Draft' : 'Normal',
+              commodityId: cid,
+            },
+            header: {
+              token: app.token,
+            },
+            method: 'POST',
+            success: function (res) {
+              wx.hideLoading()
+              console.log('获取列表', res)
+              const { code, message, data } = res.data
+              if (code != 20000) {
+                wx.showToast({
+                  icon: 'none',
+                  title: message,
+                  duration: 1000,
+                })
+                return false
+              }
+              that.getlist()
+            },
+          })
+          wx.hideLoading()
         }
       },
     })
@@ -141,10 +165,10 @@ Page({
   onPullDownRefresh() {
     this.getlist()
   },
-  //删除订单
+  //删除商品
   delete(e) {
     let that = this
-    let detail = e.currentTarget.dataset.cid
+    let cid = e.currentTarget.dataset.cid
     wx.showModal({
       title: '温馨提示',
       content: '您确认要删除此商品吗？',
@@ -153,7 +177,28 @@ Page({
           wx.showLoading({
             title: '正在处理',
           })
-          // 网络请求
+          wx.request({
+            url: config.apis.operateCommodity + '/' + cid,
+            header: {
+              token: app.token,
+            },
+            method: 'DELETE',
+            success: function (res) {
+              wx.hideLoading()
+              console.log('获取列表', res)
+              const { code, message, data } = res.data
+              if (code != 20000) {
+                wx.showToast({
+                  icon: 'none',
+                  title: message,
+                  duration: 1000,
+                })
+                return false
+              }
+              that.getlist()
+            },
+          })
+          wx.hideLoading()
         }
       },
     })
