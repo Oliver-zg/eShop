@@ -18,31 +18,30 @@ Page({
   onLoad: function (opentions) {
     // 获取用户信息
     wx.getSetting({
-      success: res => {
+      success: (res) => {
         if (res.authSetting['scope.userInfo']) {
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
-            success: res => {
+            success: (res) => {
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
-                userInfo: res.userInfo
+                userInfo: res.userInfo,
               })
-            }
-          })  } }
+            },
+          })
+        }
+      },
     })
     this.setData({
       onGetUserInfo: this.onGetUserInfo,
       getOpenID: this.getOpenID,
-      chatRoomGroupId: opentions.id
+      chatRoomGroupId: opentions.id,
     })
     wx.getSystemInfo({
-      success: res => {
+      success: (res) => {
         console.log('system info', res)
         if (res.safeArea) {
-          const {
-            top,
-            bottom
-          } = res.safeArea
+          const { top, bottom } = res.safeArea
           this.setData({
             containerStyle: `padding-top: ${(/ios/i.test(res.system) ? 10 : 20) + top}px; padding-bottom: ${20 + res.windowHeight - bottom}px`,
           })
@@ -55,9 +54,7 @@ Page({
     if (app.openid) {
       return app.openid
     }
-    const {
-      result
-    } = await wx.cloud.callFunction({
+    const { result } = await wx.cloud.callFunction({
       name: 'login',
     })
     return result.openid
@@ -68,7 +65,7 @@ Page({
       this.setData({
         logged: true,
         avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
+        userInfo: e.detail.userInfo,
       })
     }
   },
@@ -78,7 +75,7 @@ Page({
       this.setData({
         logged: true,
         avatarUrl: e.detail.userInfo.avatarUrl,
-        userInfo: e.detail.userInfo
+        userInfo: e.detail.userInfo,
       })
     }
   },
@@ -88,15 +85,10 @@ Page({
       title: '聊天室',
       path: '/pages/detail/room/room',
     }
-  
   },
-
-  
-
-  go(){
+  go() {
     wx.navigateTo({
       url: '/pages/message/message',
     })
-  }
-
+  },
 })

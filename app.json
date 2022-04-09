@@ -17,7 +17,9 @@
     "pages/message/message",
     "pages/detail/room/room",
     "pages/use/use",
-    "pages/collect/list/list"
+    "pages/collect/list/list",
+    "pages/help/help",
+    "pages/myPublished/list/list"
   ],
   "window": {
     "backgroundColor": "#fbbd08",
@@ -44,7 +46,7 @@
         "selectedIconPath": "/images/tabbar/publish_on.png"
       },
       {
-        "pagePath": "pages/message/message",
+        "pagePath": "pages/help/help",
         "text": "消息",
         "iconPath": "/images/help.png",
         "selectedIconPath": "/images/help.png"

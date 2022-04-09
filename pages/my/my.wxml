@@ -14,7 +14,7 @@
   </view>
 </view>
 <view class="center_box">
-  <view class="center_1" bindtap="go" data-go="/pages/sell/list/list" data-status="1">
+  <view class="center_1" bindtap="go" data-go="/pages/myPublished/list/list">
     <image src="/images/history.png"></image>
     <view>我的发布</view>
   </view>

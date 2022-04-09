@@ -6,6 +6,7 @@ let apis = {
   publishCommodity: host + '/commodity',
   getCommodityList: host + '/commodity',
   favorites: host + '/favorites',
+  myPublishedCommodity: host + '/commodity/myPublishedCommodity',
 }
 
 let data = {
