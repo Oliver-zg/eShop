@@ -59,6 +59,16 @@
   <view class="palceInput_box" wx:if="{{commodity.commodityPickupWay==1}}">
     <input bindinput="placeInput" placeholder="卖家可以邮寄，请填写您的收货地址"></input>
   </view>
+  <!-- 留言列表 -->
+<view >
+  <block wx:if="{{commentList.length>0}}">
+    <block wx:for="{{commentList}}" wx:key="_id">
+      <view class="list_box" >
+      {{item.commentContent}}
+      </view>
+    </block>
+  </block>
+</view>
   <view class="notes_box" wx:if="{{commodity.commodityRemark!==''}}">
     <view class="notes">
       <view class="notes_text">留言:</view>

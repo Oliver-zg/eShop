@@ -9,7 +9,8 @@ let apis = {
   myPublishedCommodity: host + '/commodity/myPublishedCommodity',
   getOtherUserInfo: host + '/user/getOtherUserInfo/',
   updateUserInfo: host + '/user/updateUserInfo',
-  createOrder: host +'/order/createOrder'
+  createOrder: host +'/order/createOrder',
+  getComment: host +'/comment/'
 }
 
 let data = {

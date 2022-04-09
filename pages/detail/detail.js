@@ -19,17 +19,21 @@ Page({
     isExist: Boolean,
     address: '',
     //
+    page: 1,
+    limit: 20,
     commodity:{},
     sellerInfo:{},
     imageUrls:[],
     isFavorite: false,
     commodityId: "",
-    sellerId:""
+    sellerId:"",
+    commentList:[]
   },
   onLoad(e) {
     obj = e
     this.data.commodityId = e.commodityId
     this.getcommodityDetail(e.commodityId)
+    this.getCommentList()
   
     // this.getPublish(e.commodityId)
     
@@ -207,30 +211,6 @@ if(this.data.commodity.commodityStatus=="Normal"){
 },
 
 
-  //发送模板消息到指定用户,推送之前要先获取用户的openid
-  send(openid) {
-    let that = this
-    wx.cloud
-      .callFunction({
-        name: 'sendMsg',
-        data: {
-          openid: openid,
-          status: '买家已预定', //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；
-          address: that.data.address,
-          describe: that.data.publishinfo.bookinfo.describe,
-          good: that.data.publishinfo.bookinfo.good,
-          nickName: that.data.buyerInfo.info.nickName,
-          color: 'red',
-        },
-      })
-      .then((res) => {
-        console.log('推送消息成功', res)
-      })
-      .catch((res) => {
-        console.log('推送消息失败', res)
-      })
-  },
-
   //路由
   go(e) {
     wx.navigateTo({
@@ -297,4 +277,41 @@ if(this.data.commodity.commodityStatus=="Normal"){
       })
     }
   },
+
+  //获取评论
+  getCommentList(){
+    let that = this
+    const { page, limit } = that.data
+    wx.request({
+      url: config.apis.getComment + '/' + page + '/' + limit ,
+      data: {
+        commentQueryDTO:{commodityId:that.data.commodityId}
+      },
+      method: 'POST',
+      header: {
+        token: app.token,
+      },
+      success: function (res) {
+        console.log('获取评论列表', res)
+        const { code, message, data } = res.data
+        if (code != 20000) {
+          wx.showToast({
+            icon: 'none',
+            title: message,
+            duration: 1000,
+          })
+          return false
+        }
+        that.setData({
+          commentList: data.rows, // 商品列表
+        })
+      },
+      fail: function () {
+        // fail
+      },
+      complete: function () {
+        // complete
+      },
+    })
+  }
 })

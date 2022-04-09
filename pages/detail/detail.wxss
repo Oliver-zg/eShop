@@ -8,7 +8,14 @@
 .chou {
       padding-top: 30rpx;
 }
-
+.list_box {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 20rpx;
+      box-sizing: border-box;
+      margin-top: 10rpx;
+}
 .top_img {
       width: 100%;
       display: flex;
@@ -192,10 +199,11 @@
 
 .deliver_box {
       width: 100%;
-      padding: 24rpx 24rpx 0 24rpx;
+      padding: 24rpx 24rpx 24rpx 24rpx;
       display: flex;
       box-sizing: border-box;
       justify-content: space-between;
+      border-bottom: 1rpx solid #eee;
 }
 
 .deliver_first {
@@ -404,5 +412,14 @@
       margin: 10rpx;
 
 }
+.line{  
+      padding: 0 20px 0;  
+      margin: 20px 0;  
+      line-height: 1px;  
+      border-left: 190px solid rgb(15, 15, 15);  
+      border-right: 190px solid rgb(24, 21, 21);  
+      text-align: center;  
+  }
+  
 
   
