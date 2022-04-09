@@ -19,7 +19,9 @@
     "pages/use/use",
     "pages/collect/list/list",
     "pages/help/help",
-    "pages/myPublished/list/list"
+    "pages/myPublished/list/list",
+    "pages/myPublished/detail/detail",
+    "pages/detail/orderDetail/orderDetail"
   ],
   "window": {
     "backgroundColor": "#fbbd08",

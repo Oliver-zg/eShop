@@ -198,7 +198,6 @@ Page({
   detail(e) {
     let that = this
     if (e.currentTarget.dataset.id) {
-      console.log('商品详情id', e.currentTarget.dataset.id)
       wx.navigateTo({
         url: '/pages/detail/detail?commodityId=' + e.currentTarget.dataset.id,
       })

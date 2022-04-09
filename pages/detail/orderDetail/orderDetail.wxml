@@ -1,0 +1,52 @@
+<view class="contain">
+	<view class="card">
+		<view class="goods_box">
+			<image class="goods_img" src="{{imageUrls[0]}}"></image>
+			<view class="goods_content">
+				<view class="goods_title text-cut">{{commodity.commodity_name}}</view>
+				<view class="goods_author text-cut">卖家：{{sellerInfo.nickname}}</view>
+			</view>
+			<view class="goods_price">￥{{commodity.commodityPrice}}元</view>
+		</view>
+		<view class="border"></view>
+		<view class="list">
+			<view class="list_1">{{commodity.commodityPickupWay==0?'需要自提':'卖家邮寄'}}</view>
+			<view class="list_2" wx:if="{{commodity.commodityPickupWay==0}}" >
+				自提地址：{{commodity.commodityRemark}}
+			</view>
+			<view class="list_2" wx:if="{{commodity.commodityPickupWay==1}}">
+				地址：
+				<input bindinput="placeInput" placeholder="请填写您的地址"></input>
+			</view>
+		</view>
+		<view class="border"></view>
+		<view class="list">
+			<view class="list_1">
+				备注：
+			</view>
+			<view class="list_2">
+				<input bindinput="placeInput" placeholder="请填写您的需要备注的信息"></input>	
+			</view>
+		</view>
+		<view class="border"></view>
+		<view class="orderfare">ORDER FARE</view>
+		<view class="fare_box">
+			<view class="fare_title">下单时间</view>
+			<view class="fare_des">{{creatTime}}</view>
+		</view>
+		<view class="fare_box">
+			<view class="fare_title">支付金额</view>
+			<view class="fare_des">￥{{commodity.commodityPrice}}.00元</view>
+		</view>
+		<view class="border"></view>
+		<view class="orderfare">CONTACT SELLER</view>
+		<view class="fare_box" bindtap="copy" data-copy="{{userinfo.email}}" data-name="邮箱">
+			<view class="fare_title">手机号码</view>
+			<input class="fare_des" bindinput="phoneInput" placeholder="请填写您的电话号码"></input>
+			<!-- <view class="fare_des">{{userinfo.email}}</view> -->
+		</view>
+		<!-- 底部确认 -->
+		<button class="confirm"  bindtap="postOrder">确认</button>
+
+	</view>
+</view>

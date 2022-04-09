@@ -68,7 +68,9 @@ Page({
                 success: function (res) {
                   console.log('token', res)
                   app.token = res.data.data.token
+                  app.userId=res.data.data.userId
                   wx.setStorageSync('token', res.data.data.token)
+                  wx.setStorageSync('userId', res.data.data.userId)
                   that.updateUserInfo(res.data.data.userId)
                 },
               })

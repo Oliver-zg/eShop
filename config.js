@@ -10,6 +10,8 @@ let apis = {
   getOtherUserInfo: host + '/user/getOtherUserInfo/',
   updateUserInfo: host + '/user/updateUserInfo',
   operateCommodity: host + '/commodity',
+  createOrder: host + '/order/createOrder',
+  getComment: host + '/comment/',
 }
 
 let data = {
