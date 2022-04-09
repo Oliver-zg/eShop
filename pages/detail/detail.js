@@ -1,7 +1,5 @@
 const app = getApp()
-const db = wx.cloud.database()
 const config = require('../../config.js')
-const _ = db.command
 let obj = ''
 Page({
   /**
@@ -20,119 +18,91 @@ Page({
     buyerInfo: [],
     isExist: Boolean,
     address: '',
+    //
+    commodity:{},
+    sellerInfo:{}
   },
   onLoad(e) {
     obj = e
-    this.getuserdetail()
-    this.data.id = e.scene
-    this.getPublish(e.scene)
-    if (app.openid) {
-      this.setData({
-        openid: app.openid,
-      })
-    } else {
-      console.log('no openid')
-      wx.showModal({
-        title: '温馨提示',
-        content: '该功能需要注册方可使用，是否马上去注册',
-        success(res) {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/login/login',
-            })
-          }
-        },
-      })
-      return false
-    }
-    this.getBuyer(this.data.openid)
+    this.getcommodityDetail(e.commodityId)
+    // this.data.id = e.commodityId
+    // this.getPublish(e.commodityId)
+    
+    // this.getBuyer(this.data.openid)
     wx.showShareMenu({
       withShareTicket: true,
       menus: ['shareAppMessage', 'shareTimeline'],
     })
   },
-
-  //获取买家信息
-  getBuyer(m) {
+  //获取商品详情
+  getcommodityDetail(id){
     let that = this
-    db.collection('user')
-      .where({
-        _openid: m,
-      })
-      .get({
+    console.log('获取商品详情id', id)
+    console.log('app.token', app.token)
+    wx.request({
+        url: config.apis.getCommodityList + '/' +id,
+        data: {},
+        method: 'GET',
+         header: {token:app.token}, // 设置请求的 header
         success: function (res) {
-          wx.hideLoading()
+          console.log('获取商品详情', res)
+          const { code, message, data } = res.data
+          if (code != 20000) {
+            wx.showToast({
+              icon: 'none',
+              title: message,
+              duration: 1000,
+            })
+            return false
+          }
           that.setData({
-            buyerInfo: res.data[0],
+            commodity: data.commodity, // 商品详情
           })
+          that.getSeller(data.commodity.userId)
+        },
+        fail: function () {
+          // fail
+        },
+        complete: function () {
+          // complete
         },
       })
+
+  },
+  //获取卖家信息
+  getSeller(userId) {
+    let that = this
+    console.log("user",userId)
+    wx.request({
+      url: config.apis.getOtherUserInfo + '/'+userId,
+      data: {},
+      method: 'GET',
+      header: {}, // 设置请求的 header
+      success: function (res) {
+        console.log('获取其他用户详情', res)
+        const { code, message, data } = res.data
+        if (code != 20000) {
+          wx.showToast({
+            icon: 'none',
+            title: message,
+            duration: 1000,
+          })
+          return false
+        }
+        that.setData({
+          sellerInfo: data.userInfo, // 卖家详情
+        })
+      },
+      fail: function () {
+        // fail
+      },
+      complete: function () {
+        // complete
+      },
+    })
+    
   },
 
-  goo(e) {
-    var myid = this.data.openid
-    var sallerid = this.data.goodssaller
-    wx.cloud.init({
-      env: 'taoshaoji-46f0r',
-      traceUser: true,
-    })
-    //初始化数据库
-    const db = wx.cloud.database()
-    if (myid != sallerid) {
-      db.collection('rooms')
-        .where({
-          p_b: myid,
-          p_s: sallerid,
-        })
-        .get()
-        .then((res) => {
-          console.log(res.data)
-          if (res.data.length > 0) {
-            this.setData({
-              roomID: res.data[0]._id,
-            })
-            db
-              .collection('rooms')
-              .doc(res.data[0]._id)
-              .update({
-                data: {
-                  deleted: 0,
-                },
-              }),
-              wx.navigateTo({
-                url: 'room/room?id=' + this.data.roomID,
-              })
-          } else {
-            db.collection('rooms')
-              .add({
-                data: {
-                  p_b: myid,
-                  p_s: sallerid,
-                  deleted: 0,
-                },
-              })
-              .then((res) => {
-                console.log(res)
-                this.setData({
-                  roomID: res._id,
-                })
-                wx.navigateTo({
-                  url: 'room/room?id=' + this.data.roomID,
-                })
-              })
-          }
-        })
-    } else {
-      wx.navigateTo({
-        url: 'room/room?id=1',
-      })
-      // wx.showToast({
-      //       title: '无法和自己建立聊天',
-      //       icon: 'none',
-      //       duration: 1500
-      // })
-    }
-  },
 
   changeTitle(e) {
     let that = this
@@ -140,39 +110,8 @@ Page({
       first_title: e.currentTarget.dataset.id,
     })
   },
-  //获取发布信息
-  getPublish(e) {
-    let that = this
-    db.collection('publish')
-      .doc(e)
-      .get({
-        success: function (res) {
-          that.setData({
-            collegeName: JSON.parse(config.data).college[parseInt(res.data.collegeid) + 1],
-            publishinfo: res.data,
-          })
-          that.getSeller(res.data._openid)
-        },
-      })
-  },
-  //获取卖家信息
-  getSeller(m, n) {
-    let that = this
-    db.collection('user')
-      .where({
-        _openid: m,
-      })
-      .get({
-        success: function (res) {
-          console.log(res.data[0]._openid)
-          that.setData({
-            userinfo: res.data[0],
-            goodssaller: res.data[0]._openid,
-          })
-          that.getBook(n)
-        },
-      })
-  },
+
+
   //回到首页
   home() {
     wx.switchTab({

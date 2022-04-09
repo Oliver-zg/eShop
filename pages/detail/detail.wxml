@@ -3,15 +3,14 @@
   <!-- 轮播图 -->
   <swiper indicator-dots='true' autoplay='true' interval='5000' duration='500' circular="true">
     <swiper-item class="image">
-      <image src='/images/slist/2.jpg' mode="scaleToFill" bindtap="img"></image>
-      <image src='/images/slist/2.jpg' mode="scaleToFill" bindtap="img"></image>
+      <image src="{{commodity.commodityCover}}" mode="scaleToFill" bindtap="img"></image>
     </swiper-item>
   </swiper>
   <!-- <view class="title text-cut">{{publishinfo.bookinfo.good}}</view> -->
-  <view class="title text-cut">{{publishinfo.commodity_name}}</view>
+  <view class="title text-cut">{{commodity.commodity_name}}</view>
   <view class="price_box">
     <!-- <view class="now_price">￥{{publishinfo.price}}元</view> -->
-    <view class="now_price">{{publishinfo.commodity_prize}}</view>
+    <view class="now_price">{{commodity.commodity_prize}}</view>
   </view>
 </view>
 <view class="blank"></view>
@@ -27,13 +26,12 @@
 <view hidden="{{!first_title}}">
   <view class="user_box">
     <!-- <image lazy-load src="{{userinfo.info.avatarUrl}}"></image> -->
-    <image lazy-load src="/images/avator.png"></image>
+    <image lazy-load src="{{sellerInfo.avatar}}"></image>
     <view class="des_box">
-      <!-- <view class="user_name">{{userinfo.info.nickName}}</view> -->
-      <view class="user_name">用户562</view>
+      <view class="user_name">{{sellerInfo.nickname}}</view>
       <view class="local_box">
         <image src="/images/local.png"></image>
-        <view>北京 朝阳</view>
+        <view>{{sellerInfo.city}}</view>
       </view>
     </view>
     <view class="sex">
@@ -44,23 +42,22 @@
     <view class="kind">{{publishinfo.commodity_category}}</view>
     <!-- <view class="kind">{{collegeName.name}}类物品</view> -->
     <!-- <view class="time">发布于{{morejs.timelog(publishinfo.creat)}}</view> -->
-    <view class="time">发布于{{publishinfo.creatTime}}</view>
+    <view class="time">发布于{{commodity.gmtModified}}</view>
   </view>
   <view class="deliver_box">
     <view class="deliver_first">
       <view class="deliver_title">取货方式：{{}}</view>
-      <!-- <view class="deliver_kind">{{publishinfo.deliveryid==0?'自提':'帮送'}}</view> -->
-      <view class="deliver_kind">{{publishinfo.commodity_pickup_way}}</view>
+      <view class="deliver_kind">{{commodity.commodityPickupWay==0?'自提':'邮寄'}}</view>
     </view>
-    <!-- <view class="deliver_place">{{publishinfo.place}}</view> -->
+    <view class="deliver_place" wx:if="{{commodity.commodityPickupWay==0}}">{{commodity.commodityRemark}}</view>
   </view>
-  <!-- <view class="palceInput_box" wx:if="{{publishinfo.deliveryid==1}}">
+  <view class="palceInput_box" wx:if="{{commodity.commodityPickupWay==1}}">
     <input bindinput="placeInput" placeholder="卖家可以邮寄，请填写您的收货地址"></input>
-  </view> -->
-  <view class="notes_box" wx:if="{{publishinfo.notes!==''}}">
+  </view>
+  <view class="notes_box" wx:if="{{commodity.commodityRemark!==''}}">
     <view class="notes">
       <view class="notes_text">备注信息:</view>
-      <text class="notes_text" selectable="true">{{publishinfo.notes}}</text>
+      <text class="notes_text" selectable="true">{{commodity.commodityRemark}}</text>
     </view>
   </view>
 </view>
@@ -69,7 +66,7 @@
   <view class="detail_contain">
     <view class="detail_card">
       <view class="detail_title">物品描述</view>
-      <view class="detail_content">{{publishinfo.commodity_description}}</view>
+      <view class="detail_content">{{commodity.commodityDescription}}</view>
     </view>
     <!-- 物品详情预览 -->
     <!-- <block class="image" wx:for="{{publishinfo.bookinfo.imgs}}" wx:key="index">

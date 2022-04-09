@@ -5,6 +5,8 @@ let apis = {
   uploadFile: host + '/oss',
   publishCommodity: host + '/commodity',
   getCommodityList: host + '/commodity/',
+  getOtherUserInfo:host+'/user/getOtherUserInfo/',
+  updateUserInfo: host+'/user/updateUserInfo'
 }
 
 let data = {
