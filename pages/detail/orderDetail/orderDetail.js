@@ -101,9 +101,9 @@ Page({
             })
             
           },
+          //提交订单+付款
           postOrder(){
-                console.log("提交订单",this.data.commodityId)
-
+            console.log("提交订单",this.data.commodityId)
             wx.request({
                   url: config.apis.createOrder+"/"+this.data.commodityId,
                   data: {
@@ -125,24 +125,39 @@ Page({
                         wx.navigateBack({
                               delta: 1
                             })
-                       }, 1000) 
-                      
+                       }, 1000)                       
                       return false
                     }
-                    wx.showToast({
-                        icon: 'none',
-                        title: "下单成功！",
-                        duration: 1000,
-                      })
+                    //支付订单
+                    wx.request({
+                      url: config.apis.payOrder+"/" + orderId,
+                      method: 'POST',
+                      header: { token: app.token}, // 设置请求的 header
+                      success: function (res) {
+                        console.log("支付订单",res)
+                        const { code, message, data } = res.data
+                        if (code != 20000) {
+                          wx.showToast({
+                            icon: 'none',
+                            title: message,
+                            duration: 1000,
+                          })
+                          return false
+                        }
+                        wx.showToast({
+                          icon: 'none',
+                          title: "下单成功！",
+                          duration: 1000,
+                        })
                       setTimeout(function () {
                         wx.navigateBack({
                               delta: 1
                             })
-                       }, 1000) 
-                      
+                        }, 1000)  
+                      },
+                    })  
                   },
                 })
-
           },
           placeInput(e) {
             this.data.address = e.detail.value

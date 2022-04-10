@@ -13,6 +13,7 @@ let apis = {
   createOrder: host + '/order/createOrder',
   getComment: host + '/comment/',
   chat: 'ws://8.130.48.185:8003/eShop/websocket/oneToOne/',
+  payOrder:host + '/order/payOrder/',
 }
 
 let data = {

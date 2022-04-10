@@ -216,34 +216,6 @@ if(this.data.commodity.commodityStatus=="Normal"){
   commentInput(e) {
     this.data.comment = e.detail.value
   },
-  //为了数据安全可靠，每次进入获取一次用户信息
-  getuserdetail() {
-    if (!app.openid) {
-      wx.cloud.callFunction({
-        name: 'regist', // 对应云函数名
-        data: {
-          $url: 'getid', //云函数路由参数
-        },
-        success: (re) => {
-          db.collection('user')
-            .where({
-              _openid: re.result,
-            })
-            .get({
-              success: function (res) {
-                if (res.data.length !== 0) {
-                  app.openid = re.result
-                  app.userinfo = res.data[0]
-                  console.log(app)
-                }
-                console.log(res)
-              },
-            })
-        },
-      })
-    }
-  },
-
   //图片点击事件
   img: function (event) {
     let arr = []
@@ -323,6 +295,7 @@ if(this.data.commodity.commodityStatus=="Normal"){
   //提交留言
   postComment(){
     let that = this
+    console.log("内容",that.data.comment)
     wx.request({
       url: config.apis.getComment ,
       data: {

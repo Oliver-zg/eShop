@@ -85,7 +85,7 @@
     <view class="notes">
       <view class="notes_text">留言:</view>
       <view class="notes_post" >
-        <input  placeholder="给卖家留言" value='{{comment}}' bindconfirm="postComment"></input>
+        <input  bindinput="commentInput" placeholder="给卖家留言" value='{{comment}}' bindconfirm="postComment"></input>
       </view>
       
     </view>
