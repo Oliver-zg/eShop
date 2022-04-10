@@ -16,6 +16,8 @@ let apis = {
   chat: 'ws://8.130.48.185:8003/eShop/websocket/oneToOne/',
   deliverOrder: host + '/order/deliverOrder/',
   cancelOrder: host + '/order/cancelOrder/',
+  payOrder: host + '/order/payOrder/',
+  myPurchasedCommodity: host + '/order/myPurchasedCommodity/',
 }
 
 let data = {
