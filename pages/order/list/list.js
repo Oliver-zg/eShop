@@ -8,25 +8,36 @@ Page({
        * 页面的初始数据
        */
       data: {
+            list: JSON.parse(config.data).jlist,
+            // list: [],
+            page: 1,
+            limit: 20,
             scrollTop: 0,
             nomore: false,
-            list:JSON.parse(config.data).jlist,
             tab: [{
                         name: '全部',
+                        id: '',
+                  },
+                  {
+                        name: '未支付',
                         id: 0,
                   },
                   {
-                        name: '交易中',
+                        name: '待发货',
                         id: 1,
                   },
                   {
-                        name: '交易完成',
+                        name: '待发货',
                         id: 2,
                   },
-                  // {
-                  //       name: '已取消',
-                  //       id: 3,
-                  // }
+                  {
+                        name: '已完成',
+                        id: 3,
+                  },
+                  {
+                        name: '已取消',
+                        id: 4,
+                  }
             ],
             tabid: 0,
             detail: [],
@@ -61,24 +72,32 @@ Page({
       getlist() {
             let that = this;
             let status = that.data.tabid;
-            if (status == 0) {
-                  var statusid = _.neq(0); //除-2之外所有
-            } else {
-                  var statusid = parseInt(status) //小程序搜索必须对应格式
-            }
-            db.collection('order').where({
-                  status: statusid,
-                  _openid: app.openid
-            }).orderBy('creat', 'desc').get({
-                  success(re) {
-                        wx.stopPullDownRefresh(); //暂停刷新动作
-                        that.setData({
-                              nomore: false,
-                              page: 0,
-                              list: re.data
-                        })
-                        wx.hideLoading();
-                  }
+            const { page, limit } = this.data
+            console.log("status",status)
+            wx.request({
+              url: config.apis.myPurchasedCommodity + '/' + page + '/' + limit + `${status !== '' ? '?orderStatus=' + status : ''}`,
+              // data: {
+              //   commodityStatus: status,
+              // },
+              header: {
+                token: app.token,
+              },
+              method: 'POST',
+              success: function (res) {
+                console.log('获取购买列表', res)
+                const { code, message, data } = res.data
+                if (code != 20000) {
+                  wx.showToast({
+                    icon: 'none',
+                    title: message,
+                    duration: 1000,
+                  })
+                  return false
+                }
+                that.setData({
+                  list: data.rows, 
+                })
+              },
             })
       },
       /**
@@ -157,48 +176,6 @@ Page({
             })
             console.log(that.data.detail.seller)
       },
-
-
-      //发送模板消息到指定用户,推送之前要先获取用户的openid
-      sendCancel(openid) {
-            let that = this;
-            wx.cloud.callFunction({
-                  name: "sendMsg",
-                  data: {
-                        openid: that.data.detail.seller,
-                        status: '买家取消订单，已重新上架物品', //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；
-                        address: that.data.address,
-                        describe: that.data.detail.bookinfo.describe,
-                        good: that.data.detail.bookinfo.good,
-                        nickName: that.data.detail.buyerInfo.info.nickName,
-                  }
-            }).then(res => {
-                  console.log("推送消息成功", res)
-            }).catch(res => {
-                  console.log("推送消息失败", res)
-            })
-      },
-
-
-      send() {
-            let that = this;
-            wx.cloud.callFunction({
-                  name: "sendMsg",
-                  data: {
-                        openid: that.data.detail.seller,
-                        status: '买家已确认收货，请确认是否收到钱款',
-                        address: that.data.address,
-                        describe: that.data.detail.bookinfo.describe,
-                        good: that.data.detail.bookinfo.good,
-                        nickName: that.data.detail.buyerInfo.info.nickName,
-                  }
-            }).then(res => {
-                  console.log("推送消息成功", res)
-            }).catch(res => {
-                  console.log("推送消息失败", res)
-            })
-      },
-
 
       //下拉刷新
       onPullDownRefresh() {

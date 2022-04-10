@@ -3,7 +3,7 @@
 		<view class="goods_box">
 			<image class="goods_img" src="{{imageUrls[0]}}"></image>
 			<view class="goods_content">
-				<view class="goods_title text-cut">{{commodity.commodity_name}}</view>
+				<view class="goods_title text-cut">{{commodity.commodityName}}</view>
 				<view class="goods_author text-cut">卖家：{{sellerInfo.nickname}}</view>
 			</view>
 			<view class="goods_price">￥{{commodity.commodityPrice}}元</view>

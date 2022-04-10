@@ -113,7 +113,7 @@ Page({
                   header: {token:app.token}, // 设置请求的 header
                   success: function (res) {
                     console.log("提交订单",res)
-                    const { code, message, data } = res.data
+                    const { code, message, data } = res.data                    
                     if (code != 20000) {
                       console.log("提交订单失败",message)
                       wx.showToast({
@@ -130,7 +130,7 @@ Page({
                     }
                     //支付订单
                     wx.request({
-                      url: config.apis.payOrder+"/" + orderId,
+                      url: config.apis.payOrder+"/" + data.orderId,
                       method: 'POST',
                       header: { token: app.token}, // 设置请求的 header
                       success: function (res) {
@@ -150,9 +150,9 @@ Page({
                           duration: 1000,
                         })
                       setTimeout(function () {
-                        wx.navigateBack({
-                              delta: 1
-                            })
+                        wx.navigateTo({
+                          url: '/pages/order/list/list',
+                        })
                         }, 1000)  
                       },
                     })  
