@@ -61,8 +61,9 @@ Page({
   },
   detail(e) {
     const id = e.currentTarget.dataset.id
+    console.log('xxxx', id)
     wx.navigateTo({
-      url: '/pages/detail/detail?scene=' + id,
+      url: '/pages/detail/detail?commodityId=' + id,
     })
   },
   cancelCollect(e) {

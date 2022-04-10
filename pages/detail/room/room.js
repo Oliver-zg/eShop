@@ -13,9 +13,19 @@ Page({
     chatRoomGroupName: '聊天室',
     // functions for used in chatroom components
     onGetUserInfo: null,
+    getSUerInfo: null,
     getOpenID: null,
+    senderId: '',
+    receiverId: '',
   },
   onLoad: function (opentions) {
+    console.log(opentions)
+    // 记录双方id
+    this.setData({
+      senderId: opentions.senderId,
+      receiverId: opentions.reciveId,
+    })
+
     // 获取用户信息
     wx.getSetting({
       success: (res) => {
@@ -23,6 +33,7 @@ Page({
           // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
           wx.getUserInfo({
             success: (res) => {
+              console.log(res)
               this.setData({
                 avatarUrl: res.userInfo.avatarUrl,
                 userInfo: res.userInfo,
@@ -69,7 +80,6 @@ Page({
       })
     }
   },
-
   onGetUserInfo: function (e) {
     if (!this.logged && e.detail.userInfo) {
       this.setData({

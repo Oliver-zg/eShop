@@ -4,7 +4,7 @@ const config = require('../../config.js')
 Page({
   data: {
     college: JSON.parse(config.data).college,
-    collegeCur: -2,
+    // collegeCur: -2,
     showList: false,
     scrollTop: 0,
     nomore: false,
@@ -17,6 +17,7 @@ Page({
     limit: 20,
     iscard: true,
     list: [],
+    category: '',
   },
   // 用户点击右上角分享给好友,要先在分享好友这里设置menus的两个参数,才可以分享朋友圈
   onShareAppMessage: function () {
@@ -78,22 +79,24 @@ Page({
     })
   },
   //类别选择
-  collegeSelect(e) {
+  categorySelect(e) {
     this.setData({
-      collegeCur: e.currentTarget.dataset.id - 1,
-      scrollLeft: (e.currentTarget.dataset.id - 3) * 100,
-      showList: false,
+      // collegeCur: e.currentTarget.dataset.id - 1,
+      scrollLeft: (e.currentTarget.dataset.id - 3) * 190,
+      // showList: false,
+      category: e.currentTarget.dataset.id,
+      page: 1,
     })
     this.getList()
   },
   //选择全部
   selectAll() {
     this.setData({
-      collegeCur: -2,
-      scrollLeft: -200,
+      page: 1,
+      category: '',
       showList: false,
     })
-    // this.getList();
+    this.getList()
   },
   //展示列表小面板
   showlist() {
@@ -111,7 +114,7 @@ Page({
   // 获取列表
   getList() {
     let that = this
-    const { page, limit, list } = that.data
+    const { page, limit, list, category } = that.data
     // if (that.data.collegeCur == -2) {
     //   var collegeid = _.neq(-2) //除-2之外所有
     // } else {
@@ -119,7 +122,9 @@ Page({
     // }
     wx.request({
       url: config.apis.getCommodityList + '/' + page + '/' + limit + '?token=' + app.token,
-      data: {},
+      data: {
+        commodityCategory: category,
+      },
       method: 'POST',
       // header: {}, // 设置请求的 header
       success: function (res) {

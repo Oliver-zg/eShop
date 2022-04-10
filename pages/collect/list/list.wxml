@@ -9,7 +9,7 @@
           <view class="card_between">
             <view class="card_price">￥{{item.commodityPrice}}</view>
             <!-- <view hidden="{{item.isCollect}}"> -->
-              <image lazy-load class="card_buy" bindtap="cancelCollect" data-id="{{item.commodityId}}" src="/images/collected.png"></image>
+              <image lazy-load class="card_buy" catchtap="cancelCollect" data-id="{{item.commodityId}}" src="/images/collected.png"></image>
             <!-- </view> -->
           </view>
         </view>

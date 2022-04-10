@@ -58,9 +58,7 @@ Page({
         wx.login({
           success(res) {
             console.log(res)
-            wx.navigateBack({
-              delta: 1,
-            })
+
             if (res.code) {
               //发起网络请求
               wx.request({
@@ -68,14 +66,22 @@ Page({
                 success: function (res) {
                   console.log('token', res)
                   app.token = res.data.data.token
-                  app.userId=res.data.data.userId
+                  app.userId = res.data.data.userId
                   wx.setStorageSync('token', res.data.data.token)
                   wx.setStorageSync('userId', res.data.data.userId)
                   that.updateUserInfo(res.data.data.userId)
+                  wx.navigateBack({
+                    delta: 1,
+                  })
                 },
               })
             } else {
-              console.log('登录失败！' + res.errMsg)
+              wx.showToast({
+                icon: 'none',
+                title: '登录失败！',
+                duration: 1000,
+              })
+              // console.log('登录失败！' + res.errMsg)
             }
           },
         })
@@ -83,29 +89,28 @@ Page({
     })
   },
   //更新用户信息
-  updateUserInfo(userId){
+  updateUserInfo(userId) {
     wx.request({
       url: config.apis.updateUserInfo,
       data: {
-        id:userId,
-        avatar:app.userInfo.avatarUrl,
-        city:app.userInfo.city,
-        country:app.userInfo.country,
-        nickname:app.userInfo.nickName,
-        sex:app.userInfo.gender,
-        province:app.userInfo.province,
+        id: userId,
+        avatar: app.userInfo.avatarUrl,
+        city: app.userInfo.city,
+        country: app.userInfo.country,
+        nickname: app.userInfo.nickName,
+        sex: app.userInfo.gender,
+        province: app.userInfo.province,
       },
       method: 'POST',
-       header: {token:app.token}, // 设置请求的 header
+      header: { token: app.token }, // 设置请求的 header
       success: function (res) {
-        console.log("更新用户信息",res)
+        console.log('更新用户信息', res)
         const { code, message, data } = res.data
         if (code != 20000) {
-          console.log("更新用户信息失败",message)
+          console.log('更新用户信息失败', message)
         }
       },
     })
-
   },
   //获取授权的点击事件
   authorize() {

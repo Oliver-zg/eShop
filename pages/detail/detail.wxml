@@ -12,10 +12,10 @@
     </swiper-item> -->
   </swiper>
   <!-- <view class="title text-cut">{{publishinfo.bookinfo.good}}</view> -->
-  <view class="title text-cut">{{commodity.commodity_name}}</view>
+  <view class="title text-cut">{{commodity.commodityName}}</view>
   <view class="price_box">
     <!-- <view class="now_price">￥{{publishinfo.price}}元</view> -->
-    <view class="now_price">{{commodity.commodity_prize}}</view>
+    <view class="now_price">￥{{commodity.commodityPrice}}</view>
   </view>
 </view>
 <view class="blank"></view>
@@ -54,11 +54,13 @@
       <view class="deliver_title">取货方式：{{}}</view>
       <view class="deliver_kind">{{commodity.commodityPickupWay==0?'自提':'邮寄'}}</view>
     </view>
-    <view class="deliver_place" wx:if="{{commodity.commodityPickupWay==0}}">{{commodity.commodityRemark}}</view>
+    <view class="deliver_place">
+      <view class="deliver_title">卖家备注：{{commodity.commodityRemark}}</view>
+    </view>
   </view>
-  <view class="palceInput_box" wx:if="{{commodity.commodityPickupWay==1}}">
+  <!-- <view class="palceInput_box" wx:if="{{commodity.commodityPickupWay==1}}">
     <input bindinput="placeInput" placeholder="卖家可以邮寄，请填写您的收货地址"></input>
-  </view>
+  </view> -->
   <!-- 留言列表 -->
 <view >
   <block wx:if="{{commentList.length>0}}">
@@ -84,10 +86,10 @@
       <view class="detail_title">物品描述:</view>
       <view class="detail_content">{{commodity.commodityDescription}}</view>
     </view>
-    <view class="detail_card">
+    <!-- <view class="detail_card">
       <view class="detail_title">卖家备注:</view>
       <view class="detail_content">{{commodity.commodityRemark}}</view>
-    </view>
+    </view> -->
     <!-- 物品详情预览 -->
     <view class="detail_card">
       <view class="detail_title">图片预览:</view>
@@ -127,7 +129,7 @@
   </view>
 </view>
 <!-- 悬浮聊天功能 -->
-<!-- <view class="contact_box" bindtap="goo" data-id="{{roomID}}">
+<view hidden="{{userId==sellerId}}" class="contact_box" bindtap="goChartRoom" data-id="{{roomID}}">
   <image src="/images/chat.png"></image>
   <view>私聊</view>
-</view> -->
+</view>

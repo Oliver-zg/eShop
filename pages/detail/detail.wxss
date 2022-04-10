@@ -201,6 +201,7 @@
       width: 100%;
       padding: 24rpx 24rpx 24rpx 24rpx;
       display: flex;
+      flex-direction: column;
       box-sizing: border-box;
       justify-content: space-between;
       border-bottom: 1rpx solid #eee;
@@ -209,6 +210,7 @@
 .deliver_first {
       display: flex;
       align-items: center;
+      
 }
 
 .deliver_title {
@@ -219,12 +221,15 @@
 .deliver_kind {
       font-size: 28rpx;
       letter-spacing: 2rpx;
-      color: #a5a5a5;
+      /* color: #a5a5a5; */
 }
 
 .deliver_place {
       font-size: 28rpx;
       letter-spacing: 2rpx;
+      margin-top: 10px;
+      width: 100%;
+      word-wrap: break-word;
 }
 
 .palceInput_box {

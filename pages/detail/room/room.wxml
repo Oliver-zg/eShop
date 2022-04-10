@@ -1,7 +1,7 @@
 
 <view class="container">
 
-<van-notice-bar left-icon="volume-o" text="可以在我的——消息中心处 查看消息噢!" speed="30" />
+<van-notice-bar left-icon="volume-o" text="可以在消息中心处 查看消息噢!" speed="30" />
   <chatroom
     style="width: 100%; height: 95%"
     envId="{{chatRoomEnvId}}"
@@ -11,5 +11,7 @@
     userInfo="{{userInfo}}"
     onGetUserInfo="{{osnGetUserInfo}}"
     getOpenID="{{getOpenID}}"
+    senderId="{{senderId}}"
+    receiverId="{{receiverId}}"
   ></chatroom>
 </view>

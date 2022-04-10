@@ -20,12 +20,12 @@
 <!-- 分类导航 -->
 <view class="{{scrollTop>310?'nofixed':''}}"></view>
 <view class="kind_contain {{scrollTop>310?'fixed':''}}">
-  <view class="nav-item {{-2==collegeCur?'tab-on':''}}" bindtap="selectAll">
+  <view class="nav-item {{category=== '' ?'tab-on':''}}" bindtap="selectAll">
     <view class="nav-text">全部</view>
   </view>
   <scroll-view scroll-x class="nav" scroll-with-animation scroll-left="{{scrollLeft}}rpx">
-    <view class="nav-item" wx:for="{{college}}" wx:key="id" bindtap="collegeSelect" data-id="{{index}}">
-      <view class="nav-text {{index==collegeCur+1?'tab-on':''}}">{{item.name}}</view>
+    <view class="nav-item" wx:for="{{college}}" wx:key="id" bindtap="categorySelect" data-id="{{item.id}}">
+      <view class="nav-text {{item.id===category?'tab-on':''}}">{{item.name}}</view>
     </view>
   </scroll-view>
   <view class="kind_img" bindtap="showlist">
@@ -35,8 +35,8 @@
     <view class="kindlist_card">
       <view class="list_grid">
         <block wx:for="{{college}}" wx:key="id">
-          <view class="list_one" bindtap="collegeSelect" data-id="{{index}}" data-class="{{item.id}}">
-            <view class="{{index==collegeCur+1?'list-on':''}}">{{item.name}}</view>
+          <view class="list_one" bindtap="categorySelect" data-id="{{item.id}}" data-class="{{item.id}}">
+            <view class="{{item.id===category?'list-on':''}}">{{item.name}}</view>
           </view>
         </block>
       </view>
@@ -79,8 +79,8 @@
 </view>
 <!-- 无内容显示 -->
 <view class="nocontent" wx:if="{{list.length==0}}">
-  <!-- <image lazy-load src="/images/blank.png"></image>
-      <view class="blank_text">这里空空如也~</view> -->
+  <image lazy-load src="/images/blank.png"></image>
+      <view class="blank_text">这里空空如也~</view>
   <view class="card_grid">
     <block wx:for="{{list}}" wx:key="id">
       <view class="card_one" bindtap="detail" data-id="{{item.id}}">
@@ -103,6 +103,8 @@
     <image lazy-load src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/top.png"></image>
   </view>
 </van-transition>
+
+
 <!-- 首次进入提示收藏小程序 -->
 <!-- <tips />
 <welcome /> -->
