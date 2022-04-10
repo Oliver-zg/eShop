@@ -250,19 +250,6 @@ Component({
           return
         }
         const { senderId, receiverId } = that.data
-        // const doc = {
-        //   // _id: `${Math.random()}_${Date.now()}`,
-        //   senderId: senderId,
-        //   receiverId: receiverId,
-        //   // groupId: this.data.groupId,
-        //   // avatar: this.data.userInfo.avatarUrl,
-        //   // nickName: this.data.userInfo.nickName,
-        //   // msgType: 'text',
-        //   textContent: e.detail.value,
-        //   sendTime: new Date(),
-        //   sendTimeTS: time.formatTime(new Date(), 'Y/M/D h:m:s'), // fallback
-        // }
-
         // 发送消息
         wx.sendSocketMessage({
           data: {
@@ -312,21 +299,6 @@ Component({
         this.setData(SETDATA_SCROLL_TO_BOTTOM)
         return
       }
-
-      this.createSelectorQuery()
-        .select('.body')
-        .boundingClientRect((bodyRect) => {
-          this.createSelectorQuery()
-            .select(`.body`)
-            .scrollOffset((scroll) => {
-              if (scroll.scrollTop + bodyRect.height * 3 > scroll.scrollHeight) {
-                console.log('should scroll to bottom')
-                this.setData(SETDATA_SCROLL_TO_BOTTOM)
-              }
-            })
-            .exec()
-        })
-        .exec()
     },
 
     async onScrollToUpper() {
