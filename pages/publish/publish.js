@@ -539,7 +539,7 @@ Page({
   detail() {
     let that = this
     wx.navigateTo({
-      url: '/pages/detail/detail?scene=' + that.data.detail_id,
+      url: '/pages/detail/detail?commodityId=' + that.data.detail_id,
     })
   },
 })

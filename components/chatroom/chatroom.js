@@ -34,6 +34,7 @@ Component({
     senderInfo: {},
     receiverInfo: {},
     writeStatus: '',
+    limit: 30,
   },
 
   methods: {
@@ -75,31 +76,31 @@ Component({
 
       // 打开socket服务
       wx.onSocketOpen(function (res) {
-        console.log('onSocketOpen', res)
+        console.log('WebSocket 已开启！', res)
         that.setData({
           socketOpen: true,
         })
-        // wx.closeSocket()
-        // for(let i = 0; i < that.data.chats)
       })
 
+      // 接收消息
       wx.onSocketMessage(function (res) {
+        console.log('接收消息', res)
         // 消息发送成功的标志
         if (res.data.indexOf('send') != -1) {
           return false
         }
-        console.log('接收消息', res)
-        const { senderId, receiverId, sendTime, messageContent } = res.data
-        const { chatQueue } = that.data
-        // 只保存近20条聊天记录
-        if (chatQueue.length >= 20) {
+
+        const { senderId, receiverId, gmtCreate, messageContent } = res.data
+        const { chatQueue, limit } = that.data
+        // 只保存近limit条聊天记录
+        if (chatQueue.length >= limit) {
           chatQueue.pop()
         }
         const one = {
           senderId: senderId,
           receiverId: receiverId,
           text: messageContent,
-          sendTime: sendTime,
+          sendTime: gmtCreate,
         }
         that.setData({
           chatQueue: [...chatQueue, one],
@@ -168,77 +169,6 @@ Component({
         })
       }, '初始化 openId 失败')
     },
-
-    // async initWatch(criteria) {
-    //   this.try(() => {
-    //     const {
-    //       collection
-    //     } = this.properties
-    //     const db = this.db
-    //     const _ = db.command
-
-    //     console.warn(`开始监听`, criteria)
-    //     this.messageListener = db.collection(collection).where(this.mergeCommonCriteria(criteria)).watch({
-    //       onChange: this.onRealtimeMessageSnapshot.bind(this),
-    //       onError: e => {
-    //         if (!this.inited || this.fatalRebuildCount >= FATAL_REBUILD_TOLERANCE) {
-    //           this.showError(this.inited ? '监听错误，已断开' : '初始化监听失败', e, '重连', () => {
-    //             this.initWatch(this.data.chats.length ? {
-    //               sendTimeTS: _.gt(this.data.chats[this.data.chats.length - 1].sendTimeTS),
-    //             } : {})
-    //           })
-    //         } else {
-    //           this.initWatch(this.data.chats.length ? {
-    //             sendTimeTS: _.gt(this.data.chats[this.data.chats.length - 1].sendTimeTS),
-    //           } : {})
-    //         }
-    //       },
-    //     })
-    //   }, '初始化监听失败')
-
-    onRealtimeMessageSnapshot(snapshot) {
-      console.warn(`收到消息`, snapshot)
-      wx.onSocketMessage(function (res) {
-        console.log('服务器返回的消息')
-      })
-      if (snapshot.type === 'init') {
-        this.setData({
-          chats: [...this.data.chats, ...[...snapshot.docs].sort((x, y) => x.sendTimeTS - y.sendTimeTS)],
-        })
-        this.scrollToBottom()
-        this.inited = true
-      } else {
-        let hasNewMessage = false
-        let hasOthersMessage = false
-        const chats = [...this.data.chats]
-        for (const docChange of snapshot.docChanges) {
-          switch (docChange.queueType) {
-            case 'enqueue': {
-              hasOthersMessage = docChange.doc._openid !== this.data.openId
-              const ind = chats.findIndex((chat) => chat._id === docChange.doc._id)
-              if (ind > -1) {
-                if (chats[ind].msgType === 'image' && chats[ind].tempFilePath) {
-                  chats.splice(ind, 1, {
-                    ...docChange.doc,
-                    tempFilePath: chats[ind].tempFilePath,
-                  })
-                } else chats.splice(ind, 1, docChange.doc)
-              } else {
-                hasNewMessage = true
-                chats.push(docChange.doc)
-              }
-              break
-            }
-          }
-        }
-        this.setData({
-          chats: chats.sort((x, y) => x.sendTimeTS - y.sendTimeTS),
-        })
-        if (hasOthersMessage || hasNewMessage) {
-          this.scrollToBottom()
-        }
-      }
-    },
     /**
      * 发送消息
      * @param {} e
@@ -253,7 +183,6 @@ Component({
         // 发送消息
         wx.sendSocketMessage({
           data: {
-            senderId: senderId,
             receiverId: receiverId,
             messageContent: e.detail.value,
           },
@@ -270,16 +199,16 @@ Component({
             }
             console.log('发送的消息', e.detail.value)
             // 发送成功，聊天队列
-            const { chatQueue } = that.data
+            const { chatQueue, limit } = that.data
             // 只保存近20条聊天记录
-            if (chatQueue.length >= 30) {
+            if (chatQueue.length >= limit) {
               chatQueue.pop()
             }
             const one = {
               senderId: senderId,
               receiverId: receiverId,
               text: e.detail.value,
-              sendTime: time.formatTime(new Date(), 'Y/M/D h:m:s'),
+              sendTime: new Date().getTime(),
             }
             that.setData({
               textInputValue: '',
@@ -377,5 +306,10 @@ Component({
       wx.setStorageSync('chatRecord', JSON.stringify(chatRecord))
     }
     console.log('聊天组件被移除')
+
+    wx.closeSocket()
+    wx.onSocketClose(function (res) {
+      console.log('WebSocket 已关闭！')
+    })
   },
 })

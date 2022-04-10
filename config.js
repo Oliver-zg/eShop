@@ -7,12 +7,15 @@ let apis = {
   getCommodityList: host + '/commodity',
   favorites: host + '/favorites',
   myPublishedCommodity: host + '/commodity/myPublishedCommodity',
+  mySoldCommodity: host + '/order/mySoldCommodity',
   getOtherUserInfo: host + '/user/getOtherUserInfo/',
   updateUserInfo: host + '/user/updateUserInfo',
   operateCommodity: host + '/commodity',
   createOrder: host + '/order/createOrder',
   getComment: host + '/comment/',
   chat: 'ws://8.130.48.185:8003/eShop/websocket/oneToOne/',
+  deliverOrder: host + '/order/deliverOrder/',
+  cancelOrder: host + '/order/cancelOrder/',
 }
 
 let data = {

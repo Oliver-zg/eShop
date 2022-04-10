@@ -96,8 +96,7 @@
     <image class="c_success" src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/success.png"></image>
     <view class="c_title">恭喜您 发布成功</view>
     <view class="c_des">订单的实时状态请在我的主页查看</view>
-    <view class="c_see" bindtap="detail">查看详情</view>
+    <view class="c_see" bindtap="detail" >查看详情</view>
     <view class="c_again shadow" bindtap="initial">再来一个</view>
   </view>
-  <ad unit-id="adunit-5fed763488239e91" ad-type="video" ad-theme="white"></ad>
 </van-transition>

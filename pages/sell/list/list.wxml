@@ -1,38 +1,40 @@
 <wxs src="../../../common.wxs" module="morejs" />
+<view class="tab_contain">
+  <block wx:for="{{tab}}" wx:key="id">
+    <view class="tab_one" bindtap="changeTab" data-id="{{item.id}}">
+      <view class="{{tabid===item.id?'tab_on':''}}">{{item.name}}</view>
+    </view>
+  </block>
+</view>
 <view class="contain" wx:if="{{list.length!==0}}">
-  <block wx:for="{{list}}" wx:key="_id">
-    <view class="card" bindtap="detail" data-detail="{{item}}">
-      <view class="a">
-        <view class="a1 {{item.status==1?'text-red':''}}">
-          <image lazy-load src="/images/onsell.png"></image>
-          {{item.status==0?'待出售':(item.status==1||item.status==5?'交易中':(item.status==2?'已完成':'已取消'))}}
-        </view>
-        <view class="a2">{{morejs.timelog(item.creat)}}</view>
-      </view>
-      <view class="b">
-        <image lazy-load src="{{item.bookinfo.pic[0]}}"></image>
-        <view class="b1">
-          <view class="b11">
-            <view class="b111 text-cut">{{item.bookinfo.good}}</view>
+  <block wx:for="{{list}}" wx:key="orderId">
+    <view class="card shadow" bindtap="godetail" data-id="{{item.orderId}}">
+      <view class="top">
+        <view class="top1">
+          <view class="title {{item.status==1?'text-red':''}}">
+            <image src="/images/order.png"></image>
+            <view>
+              {{morejs.orderStatus(item.status)}}
+            </view>
           </view>
-          <view class="b12">￥{{item.price}}元</view>
+          <view class="date">{{item.gmtCreate}}</view>
         </view>
       </view>
-      <view class="c">
-        <view class="c1 bg-grey" catchtap="del" data-del="{{item}}" wx:if="{{item.status!=1 && item.status!=5}}">
-          删除
+      <view class="center">
+        <image src="{{morejs.getCover(item.orderCommodityCover)}}"></image>
+        <view class="content">
+          <view class="book">
+            <view class="book_name text-cut">{{item.orderCommodityName}}</view>
+          </view>
+          <view class="price">￥{{item.orderFee}}</view>
         </view>
-        <view class="c1 bg-green" catchtap="up" data-up="{{item}}" wx:if="{{item.status==3}}">
-          重新上架
+      </view>
+      <view class="bottom">
+        <view wx:if="{{item.status==0 ||item.status==1}}" class="cancel" catchtap="delete" data-id="{{item.orderId}}">
+          取消订单
         </view>
-        <view class="c2 bg-red" wx:if="{{item.status==5||item.status==1}}" catchtap="quxiao" data-quxiao="{{item}}">
-          取消交易
-        </view>
-        <view class="c2 bg-green" wx:if="{{item.status==5||item.status==1}}" catchtap="wancheng" data-wancheng="{{item}}">
-          完成交易
-        </view>
-        <view class="c1 bg-yellow" wx:if="{{item.status==0}}" catchtap="crash" data-crash="{{item}}">
-          擦亮
+        <view wx:if="{{item.status==1}}" class="confirm" catchtap="ship" data-id="{{item.orderId}}">
+          确认发货
         </view>
       </view>
     </view>
