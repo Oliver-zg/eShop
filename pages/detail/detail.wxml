@@ -34,14 +34,14 @@
     <image lazy-load src="{{sellerInfo.avatar}}"></image>
     <view class="des_box">
       <view class="user_name">{{sellerInfo.nickname}}</view>
-      <view class="local_box">
+      <!-- <view class="local_box">
         <image src="/images/local.png"></image>
         <view>{{sellerInfo.city}}</view>
-      </view>
+      </view> -->
     </view>
-    <view class="sex">
+    <!-- <view class="sex">
       <image lazy-load src="{{userinfo.gender==0?'/images/none.png':(userinfo.gender==1?'/images/boy.png':'/images/girl.png')}}"></image>
-    </view>
+    </view> -->
   </view>
   <view class="time_box">
     <view class="kind">{{publishinfo.commodity_category}}</view>
@@ -63,10 +63,20 @@
   </view> -->
   <!-- 留言列表 -->
 <view >
+  <view class="list_box" >
+    留言：
+    </view>
   <block wx:if="{{commentList.length>0}}">
     <block wx:for="{{commentList}}" wx:key="_id">
       <view class="list_box" >
-      {{item.commentContent}}
+        <image lazy-load src="{{item.avatar}}"></image>
+        <view class="list_box_all">
+          <view class="list_box_des">
+            <view> {{item.nickname}}</view>
+            <view> {{item.commentContent}}</view>
+          </view>
+          <view bindtap="deleteComment" data-id="{{item.commentId}}">删除</view>
+        </view>
       </view>
     </block>
   </block>
@@ -74,10 +84,13 @@
   <view class="notes_box" wx:if="{{commodity.commodityRemark!==''}}">
     <view class="notes">
       <view class="notes_text">留言:</view>
-      <input bindinput="msgInput" placeholder="给卖家留言"></input>
-      <!-- <text class="notes_text" selectable="true">{{commodity.commodityRemark}}</text> -->
+      <view class="notes_post" >
+        <input  placeholder="给卖家留言" value='{{comment}}' bindconfirm="postComment"></input>
+      </view>
+      
     </view>
   </view>
+
 </view>
 <!-- 物品详情 -->
 <view hidden="{{first_title}}">
