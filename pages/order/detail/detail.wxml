@@ -25,7 +25,7 @@
       </view>
     </view>
     <view class="border"></view>
-    <view class="orderfare">订单信息</view>
+    <view class="list_1">订单信息</view>
     <view class="fare_box">
       <view class="fare_title">下单时间</view>
       <view class="fare_des">{{ oreder.gmtCreate }}</view>
@@ -35,7 +35,7 @@
       <view class="fare_des">￥{{ oreder.orderFee }}元</view>
     </view>
     <view class="border"></view>
-    <view class="orderfare">联系方式</view>
+    <view class="list_1">联系方式</view>
     <view class="fare_box" bindtap="copy" data-copy="{{ userinfo.email }}" data-name="邮箱">
       <view class="fare_title">手机号码</view>
       <view class="fare_des">{{ oreder.buyerPhone }}</view>

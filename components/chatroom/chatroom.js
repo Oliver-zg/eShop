@@ -53,6 +53,7 @@ Component({
       // 聊天记录格式为 chats = [{senderId:'',receiveId:'',content:[{},{},....]}]
       if (chatRecordString) {
         const chatRecord = JSON.parse(wx.getStorageSync('chatRecord'))
+        console.log('读取本地聊天记录', chatRecord)
         // 如果有,找出本次的对话双方的历史聊天记录
         for (let index = 0; index < chatRecord.length; index++) {
           const ele = chatRecord[index]
@@ -101,6 +102,7 @@ Component({
         }
 
         const { senderId, receiverId, gmtCreate, messageContent } = JSON.parse(res.data)
+        console.log('jsonParse', JSON.parse(res.data))
         const { chatQueue, limit } = that.data
         // 只保存近limit条聊天记录
         if (chatQueue.length >= limit) {
@@ -117,7 +119,7 @@ Component({
             chatQueue: [...chatQueue, one],
           },
           () => {
-            console.log('保存聊天记录', chatQueue)
+            console.log('实时保存聊天记录', that.data.chatQueue)
           }
         )
       })
@@ -325,7 +327,7 @@ Component({
         method: 'GET',
         header: {
           token: app.token,
-        }, // 设置请求的 header
+        },
         success: function (res) {
           console.log('未读消息', res)
           const { code, message, data } = res.data
@@ -357,7 +359,7 @@ Component({
               chatQueue: [...that.data.chatQueue, ...temp],
             },
             () => {
-              console.log('保存聊天记录', that.data.chatQueue)
+              console.log('保存未读聊天记录', that.data.chatQueue)
             }
           )
         },
@@ -370,6 +372,7 @@ Component({
       })
     },
   },
+
   ready() {
     global.chatroom = this
     this.initRoom()
@@ -378,7 +381,7 @@ Component({
   detached() {
     let chatRecordString = wx.getStorageSync('chatRecord')
     const { senderId, receiverId, chatQueue } = this.data
-    console.log(chatQueue)
+    console.log(this.data.chatQueue)
     // 如果本地没有聊天记录，创建一个数组
     // 聊天记录格式为 chats = [{senderId:'',receiveId:'',content:[{},{},....]}]
     if (!chatRecordString) {
@@ -386,28 +389,41 @@ Component({
         {
           senderId: senderId,
           receiverId: receiverId,
-          content: chatQueue,
+          content: this.data.chatQueue,
         },
       ]
       // 保存到本地缓存
       wx.setStorageSync('chatRecord', JSON.stringify(chatRecord))
     } else {
-      // 如果有,找出本次的对话双方的历史聊天记录
+      console.log('本地有聊天记录')
+      // 如果有,寻找是否有本次的对话双方的历史聊天记录
+      let tag = false // 默认没有
       const chatRecord = JSON.parse(wx.getStorageSync('chatRecord'))
       for (let index = 0; index < chatRecord.length; index++) {
         const ele = chatRecord[index]
         if (ele.senderId == this.data.senderId && ele.receiverId == this.data.receiverId) {
-          ele.content = chatQueue
+          ele.content = this.data.chatQueue
+          tag = true
         }
       }
+      if (!tag) {
+        const newChat = {
+          senderId: senderId,
+          receiverId: receiverId,
+          content: this.data.chatQueue,
+        }
+
+        chatRecord.push(newChat)
+      }
+
       // 保存到本地缓存
       wx.setStorageSync('chatRecord', JSON.stringify(chatRecord))
     }
     console.log('聊天组件被移除')
 
-    wx.closeSocket()
-    wx.onSocketClose(function (res) {
-      console.log('WebSocket 已关闭！')
-    })
+    // wx.closeSocket()
+    // wx.onSocketClose(function (res) {
+    //   console.log('WebSocket 已关闭！')
+    // })
   },
 })

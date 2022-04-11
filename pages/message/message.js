@@ -6,7 +6,7 @@ Page({
   data: {
     list: [],
   },
-  onLoad: function () {
+  onShow: function () {
     const chatRecordString = wx.getStorageSync('chatRecord')
     if (!chatRecordString) {
       return false
