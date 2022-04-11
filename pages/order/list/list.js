@@ -49,9 +49,9 @@ Page({
   },
   //跳转详情页
   godetail(e) {
-    let commodityId = e.currentTarget.dataset.id
+    let orderId = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '/pages/order/detail/detail?id=' + commodityId,
+      url: '/pages/order/detail/detail?id=' + orderId,
     })
   },
   onShow() {

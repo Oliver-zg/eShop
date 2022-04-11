@@ -14,6 +14,7 @@ Page({
     openid: app.openid,
     appreciateCode: '',
     address: '',
+    phone:'',
     buyerInfo: [],
     //
     commodityId: '',
@@ -86,10 +87,11 @@ Page({
   postOrder() {
     console.log('提交订单', this.data.commodityId)
     wx.request({
-      url: config.apis.createOrder + '/' + this.data.commodityId,
-      data: {
-        buyerAddress: this.data.address,
-      },
+      url: config.apis.createOrder + '/' + this.data.commodityId+'?buyerAddress='+ this.data.address+"&buyerPhone="+this.data.phone,
+      // data: {
+      //   buyerAddress: this.data.address,
+      //   buyerPhone:this.data.phone
+      // },
       method: 'POST',
       header: { token: app.token }, // 设置请求的 header
       success: function (res) {
@@ -143,5 +145,8 @@ Page({
 
   placeInput(e) {
     this.data.address = e.detail.value
+  },
+  phoneInput(e) {
+    this.data.phone = e.detail.value
   },
 })

@@ -16,13 +16,13 @@
 			</view>
 			<view class="list_2" wx:if="{{commodity.commodityPickupWay==1}}">
 				地址：
-				<input bindinput="placeInput" placeholder="请填写您的地址"></input>
+				{{order.buyerAddress}}
 			</view>
 		</view>
 		<view class="border"></view>
 		<view class="list">
 			<view class="list_1">
-				{{detail.status==1?'等待收货中':(detail.status==2?'交易完成':'订单已取消')}}
+				{{oreder.status==1?'等待发货中':(oreder.status==2?'卖家已发货':(oreder.status==3?'订单已完成':'订单已取消'))}}
 			</view>
 			<view class="list_2">
 				{{detail.status==1?'系统已通知卖家准备':(detail.status==2?'要不再来一单':'祝您生活愉快')}}
@@ -32,21 +32,17 @@
 		<view class="orderfare">ORDER FARE</view>
 		<view class="fare_box">
 			<view class="fare_title">下单时间</view>
-			<view class="fare_des">{{creatTime}}</view>
+			<view class="fare_des">{{oreder.gmtCreate}}</view>
 		</view>
 		<view class="fare_box">
 			<view class="fare_title">支付金额</view>
-			<view class="fare_des">￥{{detail.price}}.00元</view>
+			<view class="fare_des">￥{{oreder.orderFee}}元</view>
 		</view>
 		<view class="border"></view>
 		<view class="orderfare">CONTACT SELLER</view>
 		<view class="fare_box" bindtap="copy" data-copy="{{userinfo.email}}" data-name="邮箱">
-			<view class="fare_title">邮箱</view>
-			<view class="fare_des">{{userinfo.email}}</view>
-		</view>
-		<view class="fare_box" wx:if="{{userinfo.qqnum!==''}}" bindtap="copy" data-copy="{{userinfo.qqnum}}" data-name="QQ">
-			<view class="fare_title">QQ</view>
-			<view class="fare_des">{{userinfo.qqnum}}</view>
+			<view class="fare_title">手机号码</view>
+			<view class="fare_des">{{oreder.buyerPhone}}</view>
 		</view>
 		<view class="border"></view>
 		<view class="bot_box" wx:if="{{detail.status==1}}">
@@ -60,11 +56,11 @@
 				删除订单
 			</view>
 		</view>
-		<view class="border" wx:if="{{appreciateCode}}"></view>
+	
 	</view>
 </view>
 <!-- 悬浮聊天功能 -->
-<view class="contact_box" bindtap="goo" data-id="{{roomID}}">
-	<image src="/images/chat.png"></image>
+<view class="contact_box" bindtap="goChartRoom" data-id="{{roomID}}">
+	<image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/chat.png"></image>
 	<view>私聊</view>
 </view>
