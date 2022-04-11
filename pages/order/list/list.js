@@ -8,8 +8,8 @@ Page({
        * 页面的初始数据
        */
       data: {
-            list: JSON.parse(config.data).jlist,
-            // list: [],
+            // list: JSON.parse(config.data).jlist,
+            list: [],
             page: 1,
             limit: 20,
             scrollTop: 0,
@@ -39,7 +39,7 @@ Page({
                         id: 4,
                   }
             ],
-            tabid: 0,
+            tabid: '',
             detail: [],
             address: ''
       },
@@ -75,11 +75,13 @@ Page({
             const { page, limit } = this.data
             console.log("status",status)
             wx.request({
-              url: config.apis.myPurchasedCommodity + '/' + page + '/' + limit + `${status !== '' ? '?orderStatus=' + status : ''}`,
-              // data: {
-              //   commodityStatus: status,
-              // },
+              url: config.apis.myPurchasedCommodity  + page + '/' + limit,
+              data: {
+                  orderStatus:status,
+              },
               header: {
+                  Accept: "*/*",
+                 
                 token: app.token,
               },
               method: 'POST',

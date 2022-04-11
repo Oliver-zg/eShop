@@ -1,8 +1,8 @@
 <wxs src="../../../common.wxs" module="morejs" />
 <view class="tab_contain">
   <block wx:for="{{tab}}" wx:key="id">
-    <view class="tab_one" bindtap="changeTab" data-id="{{index}}">
-      <view class="{{tabid==item.id?'tab_on':''}}">{{item.name}}</view>
+    <view class="tab_one" bindtap="changeTab" data-id="{{item.id}}">
+      <view class="{{tabid===item.id?'tab_on':''}}">{{item.name}}</view>
     </view>
   </block>
 </view>
@@ -14,7 +14,7 @@
           <view class="title {{item.status==1?'text-red':''}}">
             <image src="/images/order.png"></image>
             <view>
-              {{item.status==1||item.status==5?'交易中':(item.status== 2?'已完成':(item.status==3||item.status==4?'已取消':'待出售'))}}
+              {{item.status==1?'交易中':(item.status== 2?'已完成':(item.status==3||item.status==4?'已取消':'待出售'))}}
             </view>
           </view>
           <view class="date">{{morejs.timelog(item.creat)}}</view>
