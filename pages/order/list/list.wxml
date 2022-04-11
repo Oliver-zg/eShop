@@ -8,39 +8,37 @@
 </view>
 <view class="contain" wx:if="{{list.length!==0}}">
   <block wx:for="{{list}}" wx:key="_id">
-    <view class="card shadow" bindtap="godetail" data-id="{{item._id}}">
+    <view class="card shadow" bindtap="godetail" data-id="{{item.orderId}}">
       <view class="top">
         <view class="top1">
           <view class="title {{item.status==1?'text-red':''}}">
             <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/order.png"></image>
             <view>
-              {{item.status==1||item.status==5?'交易中':(item.status== 2?'已完成':(item.status==3||item.status==4?'已取消':'待出售'))}}
+              {{item.status==0?'未支付':(item.status== 1?'待发货':(item.status==2?'已发货':(item.status==3?'已完成':'已取消')))}}
             </view>
           </view>
           <view class="date">{{item.gmtCreat}}</view>
         </view>
       </view>
       <view class="center">
-        <image src="{{item.img}}"></image>
+        <image src="{{item.orderCommodityCover}}"></image>
         <view class="content">
           <view class="book">
-            <view class="book_name text-cut">{{item.name}}</view>
+            <view class="book_name text-cut">{{item.orderCommodityName}}</view>
           </view>
-          <view class="price">￥{{item.money}}元</view>
+          <view class="price">￥{{item.orderFee}}元</view>
         </view>
       </view>
       <view class="bottom">
-        <view wx:if="{{item.status==3}}">卖家取消交易</view>
-        <view wx:if="{{item.status==1}}" class="cancel" catchtap="cancel" data-ord="{{item}}">
+        <view wx:if="{{item.status==1||item.status==0}}" class="cancel" catchtap="cancel" data-ord="{{item}}">
           取消订单
         </view>
-        <view wx:if="{{item.status==1}}" class="confirm" catchtap="confirm" data-ord="{{item}}">
+        <view wx:if="{{item.status==2}}" class="confirm" catchtap="confirm" data-ord="{{item.orderId}}">
           确认收货
         </view>
-        <view wx:if="{{item.status==5}}">等待卖家确认交易</view>
-        <view wx:if="{{item.status==2||item.status==3||item.status==4}}" class="cancel" catchtap="delete" data-ord="{{item}}">
+        <!-- <view wx:if="{{item.status==4}}" class="cancel" catchtap="delete" data-ord="{{item.orderId}}">
           删除订单
-        </view>
+        </view> -->
       </view>
     </view>
   </block>

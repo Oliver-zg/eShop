@@ -35,6 +35,11 @@
       flex-direction: row;
       justify-content: space-between;
 }
+.delbtn{
+      padding-top: 10rpx;
+      margin-top: 10rpx;
+      font-size: 24rpx;
+}
 .notes_post{
       display: flex;
       flex-direction: row;

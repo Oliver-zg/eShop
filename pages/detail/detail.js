@@ -266,6 +266,28 @@ Page({
           })
           return false
         }
+        // let list = await Promise.all(data.rows.map(async (item) => {
+        //   await new Promise(resolve=>{
+        //     wx.request({
+        //       url: config.apis.getOtherUserInfo + '/' + item.userId,
+        //       data: {},
+        //       method: 'GET',
+        //       header: {}, // 设置请求的 header
+        //       success: function (res) {
+        //         console.log('获取评论用户详情', res)
+        //         const { code, message, data } = res.data
+        //         if (code != 20000) {
+        //           return false
+        //         }
+        //         item.avatar = data.userInfo.avatar
+        //         item.nickname = data.userInfo.nickname
+        //         resolve()
+        //       },
+        //     })
+        //     })
+        //     return item
+        // }));
+
         let list = data.rows.map((item) => {
           wx.request({
             url: config.apis.getOtherUserInfo + '/' + item.userId,
@@ -284,6 +306,7 @@ Page({
           })
           return item
         })
+        // that.setData({ commentList: list })
         setTimeout(function () {
           that.setData({ commentList: list })
         }, 2000)
@@ -333,7 +356,6 @@ Page({
       method: 'DELETE',
       header: { token: app.token }, // 设置请求的 header
       success: function (res) {
-        console.log('ac评论用户详情', res)
         const { code, message, data } = res.data
         if (code != 20000) {
           wx.showToast({

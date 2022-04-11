@@ -14,6 +14,7 @@ Page({
     openid: app.openid,
     appreciateCode: '',
     address: '',
+    phone:'',
     buyerInfo: [],
     //
     commodityId: '',
@@ -53,12 +54,6 @@ Page({
         })
         that.getSeller(data.commodity.userId)
       },
-      fail: function () {
-        // fail
-      },
-      complete: function () {
-        // complete
-      },
     })
   },
   //获取卖家信息
@@ -86,22 +81,17 @@ Page({
           sellerId: data.userInfo.id,
         })
       },
-      fail: function () {
-        // fail
-      },
-      complete: function () {
-        // complete
-      },
     })
   },
   //提交订单+付款
   postOrder() {
     console.log('提交订单', this.data.commodityId)
     wx.request({
-      url: config.apis.createOrder + '/' + this.data.commodityId,
-      data: {
-        buyerAddress: this.data.address,
-      },
+      url: config.apis.createOrder + '/' + this.data.commodityId+'?buyerAddress='+ this.data.address+"&buyerPhone="+this.data.phone,
+      // data: {
+      //   buyerAddress: this.data.address,
+      //   buyerPhone:this.data.phone
+      // },
       method: 'POST',
       header: { token: app.token }, // 设置请求的 header
       success: function (res) {
@@ -155,5 +145,8 @@ Page({
 
   placeInput(e) {
     this.data.address = e.detail.value
+  },
+  phoneInput(e) {
+    this.data.phone = e.detail.value
   },
 })
