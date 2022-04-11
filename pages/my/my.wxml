@@ -23,11 +23,11 @@
     <view>我的购买</view>
   </view>
   <view class="center_1" bindtap="go" data-go="/pages/sell/list/list">
-    <image src="/images/sell.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/sell.png"></image>
     <view>我的售出</view>
   </view>
   <view class="center_1" bindtap="go" data-go="/pages/collect/list/list">
-    <image src="/images/collect.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/collect.png"></image>
     <view>我的收藏</view>
   </view>
 </view>
@@ -40,14 +40,14 @@
 		</view>
 		<image src="/images/go.png"></image>
 	</view> -->
-  <view class="bottom_card" bindtap="go" data-go="/pages/help/help">
+  <view class="bottom_card" bindtap="gooo" data-go="/pages/help/help">
     <view class="bottom_1">
       <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/illustrate.png"></image>
       <view>使用说明</view>
     </view>
     <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/go.png"></image>
   </view>
-  <view class="bottom_card" bindtap="go" data-go="/pages/about/about">
+  <view class="bottom_card" bindtap="gooo">
     <view class="bottom_1">
       <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/guanyu.png"></image>
       <view>关于程序</view>
@@ -62,7 +62,7 @@
     <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/go.png"></image>
     <button open-type="feedback"></button>
   </view>
-  <view class="bottom_card" bindtap="go" data-go="" data-status="1">
+  <view class="bottom_card" bindtap="gooo">
     <view class="bottom_1">
       <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/parse.png"></image>
       <view>用户使用手册</view>

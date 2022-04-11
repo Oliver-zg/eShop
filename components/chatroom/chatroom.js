@@ -2,7 +2,7 @@ var time = require('../../utils/util.js')
 const config = require('../../config')
 const FATAL_REBUILD_TOLERANCE = 10
 const SETDATA_SCROLL_TO_BOTTOM = {
-  scrollTop: 100000,
+  scrollTop: 20000,
   scrollWithAnimation: true,
 }
 
@@ -63,7 +63,9 @@ Component({
           }
         }
       }
-
+      setTimeout(() => {
+        that.scrollToBottom(true)
+      }, 500)
       // 连接socket
       wx.connectSocket({
         url: config.apis.chat + that.data.senderId,
@@ -85,6 +87,7 @@ Component({
       // 接收消息
       wx.onSocketMessage(function (res) {
         console.log('接收消息', res)
+        if (res.data.indexOf('userId') != -1) return false
         // 消息发送成功的标志
         if (!res.data) {
           wx.showToast({
@@ -98,7 +101,7 @@ Component({
         const { chatQueue, limit } = that.data
         // 只保存近limit条聊天记录
         if (chatQueue.length >= limit) {
-          chatQueue.pop()
+          chatQueue.shift()
         }
         const one = {
           senderId: senderId,
@@ -106,9 +109,14 @@ Component({
           text: messageContent,
           sendTime: gmtCreate,
         }
-        that.setData({
-          chatQueue: [...chatQueue, one],
-        })
+        that.setData(
+          {
+            chatQueue: [...chatQueue, one],
+          },
+          () => {
+            console.log('保存聊天记录', chatQueue)
+          }
+        )
       })
     },
     onGetUserInfo(e) {
@@ -228,11 +236,40 @@ Component({
     },
 
     scrollToBottom(force) {
+      console.log('scroll')
       if (force) {
-        console.log('force scroll to bottom')
-        this.setData(SETDATA_SCROLL_TO_BOTTOM)
+        let viewId = 'view_id' + parseInt(Math.random() * 10000)
+        this.setData({
+          scrollToMessage: '',
+        })
+        this.setData({
+          viewId: viewId,
+        })
+        this.setData({
+          scrollToMessage: viewId,
+        })
+        // console.log('force scroll to bottom')
+        // this.setData(SETDATA_SCROLL_TO_BOTTOM)
+        // wx.pageScrollTo({
+        //   scrollTop: 20000,
+        //   duration: 300,
+        // })
         return
       }
+      // this.createSelectorQuery()
+      //   .select('.body')
+      //   .boundingClientRect((bodyRect) => {
+      //     this.createSelectorQuery()
+      //       .select(`.body`)
+      //       .scrollOffset((scroll) => {
+      //         if (scroll.scrollTop + bodyRect.height * 3 > scroll.scrollHeight) {
+      //           console.log('should scroll to bottom')
+      //           this.setData(SETDATA_SCROLL_TO_BOTTOM)
+      //         }
+      //       })
+      //       .exec()
+      //   })
+      //   .exec()
     },
 
     async onScrollToUpper() {
@@ -286,6 +323,7 @@ Component({
   detached() {
     let chatRecordString = wx.getStorageSync('chatRecord')
     const { senderId, receiverId, chatQueue } = this.data
+    console.log(chatQueue)
     // 如果本地没有聊天记录，创建一个数组
     // 聊天记录格式为 chats = [{senderId:'',receiveId:'',content:[{},{},....]}]
     if (!chatRecordString) {

@@ -118,9 +118,12 @@
 }
 
 .chatroom .footer {
-  flex-basis: fit-content;
+  /* flex-basis: fit-content;
   display: flex;
-  flex-direction: row;
+  flex-direction: row; */
+  position: fixed;
+  bottom: 0;
+  width: 100%;
   border-top: 1px solid #ddd;
   font-size: 10rpx;
   padding: 20rpx 30rpx;

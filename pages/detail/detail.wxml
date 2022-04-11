@@ -130,10 +130,10 @@
   </view>
   <view class="t_card" bindtap="collect" >
     <view class="" hidden="{{!isFavorite}}" >
-      <image src="/images/collected.png" ></image>
+      <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/collected.png" ></image>
     </view>
     <view class="" hidden="{{isFavorite}}">
-      <image src="/images/collect.png" ></image>
+      <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/collect.png" ></image>
     </view>
     <text>收藏</text>
   </view>
