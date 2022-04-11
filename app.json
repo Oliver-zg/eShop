@@ -48,10 +48,10 @@
         "selectedIconPath": "/images/tabbar/publish_on.png"
       },
       {
-        "pagePath": "pages/help/help",
+        "pagePath": "pages/message/message",
         "text": "消息",
-        "iconPath": "/images/help.png",
-        "selectedIconPath": "/images/help.png"
+        "iconPath": "/images/tabbar/message.png",
+        "selectedIconPath": "/images/tabbar/message_on.png"
       },
       {
         "pagePath": "pages/my/my",

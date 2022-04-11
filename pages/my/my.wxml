@@ -2,7 +2,7 @@
   <view class="top_2">
     <view class="avator">
       <open-data wx:if="{{ userinfo }}" type="userAvatarUrl"></open-data>
-      <image wx:if="{{ !userinfo }}" src="/images/avator.png"></image>
+      <image wx:if="{{ !userinfo }}" src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/avator.png"></image>
     </view>
   </view>
   <view class="top_1">
@@ -15,14 +15,14 @@
 </view>
 <view class="center_box">
   <view class="center_1" bindtap="go" data-go="/pages/myPublished/list/list">
-    <image src="/images/history.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/history.png"></image>
     <view>我的发布</view>
   </view>
   <view class="center_1" bindtap="go" data-go="/pages/order/list/list" data-status="1">
-    <image src="/images/publish.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/publish.png"></image>
     <view>我的购买</view>
   </view>
-  <view class="center_1" bindtap="go" data-go="/pages/order/list/list" data-status="1">
+  <view class="center_1" bindtap="go" data-go="/pages/sell/list/list">
     <image src="/images/sell.png"></image>
     <view>我的售出</view>
   </view>
@@ -42,17 +42,17 @@
 	</view> -->
   <view class="bottom_card" bindtap="go" data-go="/pages/help/help">
     <view class="bottom_1">
-      <image src="/images/illustrate.png"></image>
+      <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/illustrate.png"></image>
       <view>使用说明</view>
     </view>
-    <image src="/images/go.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/go.png"></image>
   </view>
   <view class="bottom_card" bindtap="go" data-go="/pages/about/about">
     <view class="bottom_1">
-      <image src="/images/guanyu.png"></image>
+      <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/guanyu.png"></image>
       <view>关于程序</view>
     </view>
-    <image src="/images/go.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/go.png"></image>
   </view>
   <!-- <view class="bottom_card" bindtap="go" data-go="/pages/kefu/kefu" data-status="1">
 		<view class="bottom_1">
@@ -63,15 +63,15 @@
 	</view> -->
   <view class="bottom_card">
     <view class="bottom_1">
-      <image src="/images/feedback.png"></image>
+      <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/feedback.png"></image>
       <view>问题反馈</view>
     </view>
     <image src="/images/go.png"></image>
     <button open-type="feedback"></button>
   </view>
-  <view class="bottom_card" bindtap="go" data-go="/pages/use/use" data-status="1">
+  <view class="bottom_card" bindtap="go" data-go="" data-status="1">
     <view class="bottom_1">
-      <image src="/images/parse.png"></image>
+      <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/parse.png"></image>
       <view>用户使用手册</view>
     </view>
     <image src="/images/go.png"></image>

@@ -1,15 +1,16 @@
-<view class="list">
-	<view class="item" wx:for="{{roomlist}}">
-		<view class="left">
-			<image mode="aspectFill" src="{{item.image}}"  bindtap="go" data-id="{{item.roomid}}" ></image>
-		</view>
-		<view class="middle"   bindtap="go" data-id="{{item.roomid}}" >
-			<view class="title">{{item.cha}}{{item.name}}</view>
-			<view class="date">{{list[i].time}}</view>
-		</view>
-		<view class="right">
-			<button class="btn"  bindtap="sendTip" >拍一拍</button>
-				<button class="btn"  bindtap="slideButtonTap" data-delid="{{item.roomid}}">删除</button>
-		</view>
-	</view>
+<view class="list" wx:if="{{ list.length > 0 }}">
+  <view class="item" wx:for="{{ list }}" wx:key="receiverId" bindtap="go" data-id="{{ item.receiverId }}">
+    <view class="left">
+      <image mode="aspectFill" src="{{ item.receiveAvatar }}"></image>
+    </view>
+    <view class="middle">
+      <view class="title">{{ item.receiverName }}</view>
+      <view class="title-2">[聊天记录]</view>
+    </view>
+  </view>
+</view>
+<!-- 无内容显示 -->
+<view class="nocontent" wx:if="{{ list.length == 0 }}">
+  <image src="/images/blank.png"></image>
+  <view class="blank_text">这里空空如也~</view>
 </view>

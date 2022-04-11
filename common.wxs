@@ -83,7 +83,10 @@ function format(dateStr) {
 function getCover(cover) {
   return cover.split(',')[0]
 }
-
+function getDate(cover) {
+  console.log(cover)
+  return cover.split(' ')[0]
+}
 function commodityStatus(status) {
   switch (status) {
     case 'Normal':
@@ -100,9 +103,43 @@ function commodityStatus(status) {
       break
   }
 }
+function orderStatus(status) {
+  var config = [
+    {
+      name: '未支付',
+      id: 0,
+    },
+    {
+      name: '待发货',
+      id: 1,
+    },
+    {
+      name: '待收货',
+      id: 2,
+    },
+    {
+      name: '已完成',
+      id: 3,
+    },
+    {
+      name: '已取消',
+      id: 4,
+    },
+  ]
+  for (var index = 0; index < config.length; index++) {
+    var ele = config[index]
+    if (ele.id === status) {
+      return ele.name
+    }
+  }
+  return '未知状态'
+}
+
 module.exports = {
   timelog: commentTimeHandle,
   format: format,
   getCover: getCover,
   commodityStatus: commodityStatus,
+  orderStatus: orderStatus,
+  getDate: getDate,
 }

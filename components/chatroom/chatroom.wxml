@@ -1,7 +1,8 @@
+<wxs src="../../common.wxs" module="morejs" />
 <view class="chatroom">
 	<!-- chats -->
 	<scroll-view class="body" scroll-y scroll-with-animation="{{scrollWithAnimation}}" scroll-top="{{scrollTop}}" scroll-into-view="{{scrollToMessage}}" bindscrolltoupper="onScrollToUpper">
-		<view wx:for="{{chatQueue}}" wx:key="{{item.sendTime}}" id="item-{{index}}" class="message {{senderId == item.senderId ? 'message__self' : ''}}">
+		<view wx:for="{{chatQueue}}" wx:key="sendTime" id="item-{{index}}" class="message {{senderId == item.senderId ? 'message__self' : ''}}">
 			<image class="avatar" src="{{senderId == item.senderId ? senderInfo.avatar : receiverInfo.avatar}}" mode="scaleToFill"></image>
 			<view class="main">
 				<view class="nickname">{{senderId == item.senderId ? senderInfo.nickname : receiverInfo.nickname}}</view>
@@ -9,7 +10,7 @@
 						<view class="loading" wx:if="{{writeStatus === 'pending'}}">···</view>
 						<view class="text-content">{{item.text}}</view>
 					</view>
-					<view class="time">{{item.sendTime}}</view>
+					<view class="time">{{morejs.format(item.sendTime)}}</view>
 			</view>
 		</view>
 	</scroll-view>
