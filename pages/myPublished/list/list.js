@@ -153,6 +153,9 @@ Page({
                 })
                 return false
               }
+              that.setData({
+                page: 1,
+              })
               that.getlist()
             },
           })

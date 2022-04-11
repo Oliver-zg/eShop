@@ -78,12 +78,13 @@ Page({
         },
       ],
       selectPhoto: true,
+      commodityId: '',
     })
   },
   onLoad() {
     console.log('token', app.token)
     this.initial()
-    this.getCodeFromSet()
+    // this.getCodeFromSet()
   },
   onShow() {},
   //价格输入改变
@@ -257,6 +258,9 @@ Page({
       title: '温馨提示',
       content: '经检测您填写的信息无误，是否马上发布？',
       success(res) {
+        wx.showLoading({
+          title: '正在发布',
+        })
         wx.request({
           url: config.apis.publishCommodity,
           data: {
@@ -274,6 +278,7 @@ Page({
           },
           method: 'PUT',
           success: function (res) {
+            wx.hideLoading()
             console.log('商品发布', res)
             const { code, data } = res.data
             if (code != 20000) {
@@ -289,14 +294,14 @@ Page({
               show_c: true,
               active: 2,
               // detail_id: e._id,
-              detail_id: data.id,
+              commodityId: data.commodityId,
             })
-            wx.showToast({
-              title: '正在上传...',
-              icon: 'loading',
-              mask: true,
-              duration: 1000,
-            })
+            // wx.showToast({
+            //   title: '正在上传...',
+            //   icon: 'loading',
+            //   mask: true,
+            //   duration: 1000,
+            // })
           },
           fail: function () {
             // fail
@@ -305,108 +310,40 @@ Page({
             // complete
           },
         })
-        // if (res.confirm) {
-        //   db.collection('publish').add({
-        //     data: {
-        //       status: 0, //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；3、交易作废，退还买家钱款
-        //       price: that.data.price, //售价
-        //       //分类
-        //       kindid: that.data.kindid, //区别通用还是用途
-        //       collegeid: that.data.cids, //学院id，-1表示通用类
-        //       deliveryid: that.data.chooseDelivery, //0自1配
-        //       place: that.data.place, //选择自提时地址
-        //       notes: that.data.notes, //备注
-        //       bookinfo: {
-        //         pic: that.data.imgUrl,
-        //         good: that.data.good,
-        //         describe: that.data.describe,
-        //         imgs: that.data.imgUrl,
-        //       },
-        //       key: that.data.good,
-        //     },
-        //     success(e) {
-        //       console.log(e)
-        //       that.setData({
-        //         show_b: false,
-        //         show_c: true,
-        //         active: 2,
-        //         detail_id: e._id,
-        //       })
-        //       wx.showToast({
-        //         title: '正在上传...',
-        //         icon: 'loading',
-        //         mask: true,
-        //         duration: 1000,
-        //       })
-        //       setTimeout(function () {
-        //         //判断卖家是否已经上传了
-        //         if (that.data.isExist == false) {
-        //           wx.showModal({
-        //             title: '物品发布成功',
-        //             content: '您未上传赞赏码用于交易，是否现在去上传？',
-        //             showCancel: true, //是否显示取消按钮
-        //             cancelText: '稍后再传', //默认是“取消”
-        //             cancelColor: '#fbbd08', //取消文字的颜色
-        //             success(res) {
-        //               if (res.confirm) {
-        //                 wx.navigateTo({
-        //                   url: '/pages/appreciateCode/appreciateCode',
-        //                 })
-        //               }
-        //             },
-        //           })
-        //         }
-        //       }, 2000)
-
-        //       that.setData({
-        //         show_b: false,
-        //         show_c: true,
-        //         active: 2,
-        //         detail_id: e._id,
-        //       })
-        //       //滚动到顶部
-        //       wx.pageScrollTo({
-        //         scrollTop: 0,
-        //       })
-        //     },
-        //   })
-        // }
       },
     })
   },
-  getCodeFromSet() {
-    let that = this
-    let openid = app.openid
-    console.log(openid)
-    db.collection('appreciatecode')
-      .where({
-        _openid: openid,
-      })
-      .get()
-      .then((res) => {
-        if (res.data.length > 0) {
-          that.setData({
-            isExist: true,
-            bigImg: res.data[0].bigImg,
-          })
-          console.log(res.data[0].bigImg)
-          console.log('isExist---->' + that.data.isExist)
-        } else {
-          that.setData({
-            isExist: false,
-          })
-          console.log('isExist---->' + that.data.isExist)
-        }
-      })
-  },
+  // getCodeFromSet() {
+  //   let that = this
+  //   let openid = app.openid
+  //   console.log(openid)
+  //   db.collection('appreciatecode')
+  //     .where({
+  //       _openid: openid,
+  //     })
+  //     .get()
+  //     .then((res) => {
+  //       if (res.data.length > 0) {
+  //         that.setData({
+  //           isExist: true,
+  //           bigImg: res.data[0].bigImg,
+  //         })
+  //         console.log(res.data[0].bigImg)
+  //         console.log('isExist---->' + that.data.isExist)
+  //       } else {
+  //         that.setData({
+  //           isExist: false,
+  //         })
+  //         console.log('isExist---->' + that.data.isExist)
+  //       }
+  //     })
+  // },
   doUpload(filePath) {
     console.log('filePath', filePath)
     const that = this
-    wx.showToast({
-      title: '正在上传...',
-      icon: 'loading',
+    wx.showLoading({
+      title: '上传中',
       mask: true,
-      duration: 1700,
     })
     wx.uploadFile({
       url: config.apis.uploadFile,
@@ -418,7 +355,7 @@ Page({
       },
       // header: {}, // 设置请求的 header
       success: function (res) {
-        // wx.hideToast()
+        wx.hideLoading()
         console.log('doUpload', JSON.parse(res.data))
         const { code, message, data } = JSON.parse(res.data)
         // 非20000返回错误
@@ -538,8 +475,9 @@ Page({
   },
   detail() {
     let that = this
+    console.log('commodityId', that.data.commodityId)
     wx.navigateTo({
-      url: '/pages/detail/detail?commodityId=' + that.data.detail_id,
+      url: '/pages/detail/detail?commodityId=' + that.data.commodityId,
     })
   },
 })

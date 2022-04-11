@@ -142,7 +142,7 @@
   </view>
 </view>
 <!-- 悬浮聊天功能 -->
-<view hidden="{{userId==sellerId}}" class="contact_box" bindtap="goChartRoom" data-id="{{roomID}}">
+<view wx:if="{{userId!=sellerId}}" class="contact_box" bindtap="goChartRoom">
   <image src="/images/chat.png"></image>
   <view>私聊</view>
 </view>

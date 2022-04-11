@@ -17,7 +17,7 @@
               {{item.status==1?'交易中':(item.status== 2?'已完成':(item.status==3||item.status==4?'已取消':'待出售'))}}
             </view>
           </view>
-          <view class="date">{{morejs.timelog(item.creat)}}</view>
+          <view class="date">{{item.gmtCreat}}</view>
         </view>
       </view>
       <view class="center">
