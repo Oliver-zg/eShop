@@ -382,7 +382,7 @@ Page({
   goChartRoom() {
     // 通过双方id获取聊天室id
     wx.navigateTo({
-      url: `/pages/detail/room/room?senderId=${this.data.userId}&reciveId=${this.data.sellerId}`,
+      url: `/pages/detail/room/room?senderId=${app.userId}&reciveId=${this.data.sellerId}`,
     })
   },
 })

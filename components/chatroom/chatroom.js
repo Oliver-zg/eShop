@@ -372,7 +372,6 @@ Component({
       })
     },
   },
-
   ready() {
     global.chatroom = this
     this.initRoom()
@@ -420,10 +419,9 @@ Component({
       wx.setStorageSync('chatRecord', JSON.stringify(chatRecord))
     }
     console.log('聊天组件被移除')
-
-    // wx.closeSocket()
-    // wx.onSocketClose(function (res) {
-    //   console.log('WebSocket 已关闭！')
-    // })
+    wx.closeSocket()
+    wx.onSocketClose(function (res) {
+      console.log('WebSocket 已关闭！')
+    })
   },
 })
