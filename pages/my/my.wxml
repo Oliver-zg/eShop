@@ -54,19 +54,12 @@
     </view>
     <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/go.png"></image>
   </view>
-  <!-- <view class="bottom_card" bindtap="go" data-go="/pages/kefu/kefu" data-status="1">
-		<view class="bottom_1">
-			<image src="/images/kefu.png"></image>
-			<view>联系客服</view>
-		</view>
-		<image src="/images/go.png"></image>
-	</view> -->
   <view class="bottom_card">
     <view class="bottom_1">
       <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/feedback.png"></image>
       <view>问题反馈</view>
     </view>
-    <image src="/images/go.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/go.png"></image>
     <button open-type="feedback"></button>
   </view>
   <view class="bottom_card" bindtap="go" data-go="" data-status="1">
@@ -74,6 +67,6 @@
       <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/parse.png"></image>
       <view>用户使用手册</view>
     </view>
-    <image src="/images/go.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/go.png"></image>
   </view>
 </view>

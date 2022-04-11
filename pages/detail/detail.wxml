@@ -120,7 +120,7 @@
 <!-- 底部导航 -->
 <view class="tabbar">
   <view class="t_card">
-    <image src="/images/home.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/home.png"></image>
     <text>首页</text>
     <button class="t_button" bindtap="home"></button>
   </view>
@@ -143,6 +143,6 @@
 </view>
 <!-- 悬浮聊天功能 -->
 <view wx:if="{{userId!=sellerId}}" class="contact_box" bindtap="goChartRoom">
-  <image src="/images/chat.png"></image>
+  <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/chat.png"></image>
   <view>私聊</view>
 </view>

@@ -19,7 +19,7 @@
 </view>
 <!-- 无内容显示 -->
 <view class="nocontent" wx:if="{{list.length==0}}">
-  <image src="/images/blank.png"></image>
+  <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/blank.png"></image>
   <view class="blank_text">这里空空如也~</view>
 </view>
 <block wx:if="{{list.length>10}}">
@@ -28,6 +28,6 @@
 </block>
 <van-transition show="{{ scrollTop>500 }}" custom-class="block" duration="600">
   <view class="totop" bindtap="gotop">
-    <image src="/images/top.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/top.png"></image>
   </view>
 </van-transition>

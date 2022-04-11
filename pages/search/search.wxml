@@ -1,7 +1,7 @@
 <wxs src="../../common.wxs" module="morejs" />
 <view class="top_contain">
   <view class="search_box">
-    <image src="/images/search.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/search.png"></image>
     <input bindinput="keyInput" bindconfirm="search" placeholder="输入您感兴趣的内容"></input>
   </view>
   <view class="search" bindtap="search">搜索</view>
@@ -11,7 +11,7 @@
   <block wx:if="{{list.length==0}}">
     <block wx:if="{{!blank}}">
       <view class="a">
-        <image src="/images/his.png"></image>
+        <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/his.png"></image>
         <view>搜索历史</view>
       </view>
       <block wx:if="{{hislist.length==0}}">
@@ -25,44 +25,19 @@
     </block>
     <block wx:if="{{blank}}">
       <view class="a">
-        <image src="/images/result.png"></image>
+        <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/result.png"></image>
         <view>搜索结果</view>
       </view>
       <!--无内容显示-->
       <view class="nocontent">
-        <image src="/images/blank.png"></image>
+        <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/blank.png"></image>
         <view class="blank_text">暂无{{key}}相关物品哟~</view>
       </view>
     </block>
-    <!-- <view class="a">
-      <image src="/images/recommend.png"></image>
-      <view>更多推荐</view>
-    </view> -->
-    <!-- <block wx:if="{{newlist.length==0}}">
-      <view class="nosearch">暂无相关推荐</view>
-    </block>
-    <block wx:if="{{newlist.length>0}}">
-      <block wx:for="{{newlist}}" wx:key="_id">
-        <view class="list_box" bindtap="detail" data-id="{{item._id}}">
-          <image class="list_poster" src="{{item.bookinfo.pic[0]}}"></image>
-          <view class="list_content">
-            <view class="list_word">
-              <view class="list_title text-cut">{{item.bookinfo.good}}
-              </view>
-            </view>
-            <view class="list_between">
-              <view class="list_price">￥{{item.price}}元</view>
-              <view class="list_time">{{morejs.timelog(item.creat )}}发布
-              </view>
-            </view>
-          </view>
-        </view>
-      </block>
-    </block> -->
   </block>
   <block wx:if="{{list.length>0}}">
     <view class="a">
-      <image src="/images/result.png"></image>
+      <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/result.png"></image>
       <view>搜索结果</view>
     </view>
     <block wx:for="{{list}}" wx:key="_id">
@@ -92,6 +67,6 @@
 </block>
 <van-transition show="{{ scrollTop>500 }}" custom-class="block" duration="600">
   <view class="totop" bindtap="gotop">
-    <image src="/images/top.png"></image>
+    <image src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/top.png"></image>
   </view>
 </van-transition>

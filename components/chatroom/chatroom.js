@@ -86,11 +86,15 @@ Component({
       wx.onSocketMessage(function (res) {
         console.log('接收消息', res)
         // 消息发送成功的标志
-        if (res.data.indexOf('send') != -1) {
+        if (!res.data) {
+          wx.showToast({
+            title: '消息发送失败',
+            duration: 1000,
+          })
           return false
         }
 
-        const { senderId, receiverId, gmtCreate, messageContent } = res.data
+        const { senderId, receiverId, gmtCreate, messageContent } = JSON.parse(res.data)
         const { chatQueue, limit } = that.data
         // 只保存近limit条聊天记录
         if (chatQueue.length >= limit) {
@@ -136,9 +140,16 @@ Component({
               senderInfo: data.userInfo,
             })
           } else {
-            that.setData({
-              receiverInfo: data.userInfo,
-            })
+            that.setData(
+              {
+                receiverInfo: data.userInfo,
+              },
+              () => {
+                wx.setNavigationBarTitle({
+                  title: '正在与' + that.data.receiverInfo.nickname + '对话',
+                })
+              }
+            )
           }
         },
         fail: function () {
@@ -180,12 +191,13 @@ Component({
           return
         }
         const { senderId, receiverId } = that.data
+        const msg = {
+          receiverId: receiverId,
+          messageContent: e.detail.value,
+        }
         // 发送消息
         wx.sendSocketMessage({
-          data: {
-            receiverId: receiverId,
-            messageContent: e.detail.value,
-          },
+          data: JSON.stringify(msg),
           success: function (res) {
             if (res.errMsg.indexOf('ok') != -1) {
               console.log('socket发送信息成功', res)
@@ -197,25 +209,18 @@ Component({
               })
               return false
             }
-            console.log('发送的消息', e.detail.value)
-            // 发送成功，聊天队列
-            const { chatQueue, limit } = that.data
-            // 只保存近20条聊天记录
-            if (chatQueue.length >= limit) {
-              chatQueue.pop()
-            }
-            const one = {
-              senderId: senderId,
-              receiverId: receiverId,
-              text: e.detail.value,
-              sendTime: new Date().getTime(),
-            }
             that.setData({
               textInputValue: '',
-              chatQueue: [...chatQueue, one],
+              // chatQueue: [...chatQueue, one],
             })
           },
-          fail: function (res) {},
+          fail: function (res) {
+            wx.showToast({
+              icon: 'none',
+              title: '发送失败',
+              duration: 1000,
+            })
+          },
         })
         // e.detail.value = ''
         this.scrollToBottom(true)
