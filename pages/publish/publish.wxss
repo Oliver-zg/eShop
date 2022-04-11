@@ -276,7 +276,7 @@ picker {
 
 .b_text {
   width: 100%;
-  height: 150rpx;
+  height: 180rpx;
   padding: 20rpx;
   border-radius: 10rpx;
   display: flex;

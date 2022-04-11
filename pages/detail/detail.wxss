@@ -159,6 +159,7 @@
 .local_box image {
       width: 30rpx;
       height: 30rpx;
+      vertical-align: middle;
 }
 
 .local_box view {
