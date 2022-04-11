@@ -83,10 +83,11 @@ function format(dateStr) {
 function getCover(cover) {
   return cover.split(',')[0]
 }
-function getDate(cover) {
-  console.log(cover)
-  return cover.split(' ')[0]
+
+function cutDate(dateTime) {
+  return dateTime.split(' ')[0]
 }
+
 function commodityStatus(status) {
   switch (status) {
     case 'Normal':
@@ -103,6 +104,7 @@ function commodityStatus(status) {
       break
   }
 }
+
 function orderStatus(status) {
   var config = [
     {
@@ -141,5 +143,5 @@ module.exports = {
   getCover: getCover,
   commodityStatus: commodityStatus,
   orderStatus: orderStatus,
-  getDate: getDate,
+  getDate: cutDate,
 }

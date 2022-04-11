@@ -220,7 +220,8 @@
 
 .card_price {
       font-size: 30rpx;
-      color: rgb(46, 46, 46);
+      color: rgba(255, 6, 6, 0.825);
+      font-weight: 600;
 }
 
 .card_buy {
