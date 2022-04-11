@@ -113,7 +113,8 @@ Page({
   //取消订单
   cancel(e) {
       let that = this
-      let id = e.currentTarget.dataset.ord
+      let id = e.currentTarget.dataset.ord.orderId
+      console.log("id",e.currentTarget.dataset.ord.orderId)
       wx.showModal({
         title: '温馨提示',
         content: '您确认要取消此订单吗？',
