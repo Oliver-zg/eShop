@@ -64,7 +64,7 @@
   <!-- 留言列表 -->
 <view >
   <view class="list_box" >
-    留言：
+    留言区：
     </view>
   <block wx:if="{{commentList.length>0}}">
     <block wx:for="{{commentList}}" wx:key="_id">
@@ -75,7 +75,7 @@
             <view> {{item.nickname}}</view>
             <view> {{item.commentContent}}</view>
           </view>
-          <view bindtap="deleteComment" data-id="{{item.commentId}}">删除</view>
+          <view class="delbtn" bindtap="deleteComment" data-id="{{item.commentId}}">删除</view>
         </view>
       </view>
     </block>
