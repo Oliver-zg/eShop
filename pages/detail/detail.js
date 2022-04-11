@@ -246,6 +246,9 @@ Page({
   getCommentList() {
     let that = this
     const { page, limit } = that.data
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: config.apis.getComment + '/' + page + '/' + limit,
       data: {
@@ -308,7 +311,9 @@ Page({
         })
         // that.setData({ commentList: list })
         setTimeout(function () {
-          that.setData({ commentList: list })
+          that.setData({ commentList: list }, () => {
+            wx.hideLoading()
+          })
         }, 2000)
       },
     })

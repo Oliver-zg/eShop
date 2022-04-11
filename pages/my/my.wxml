@@ -1,12 +1,12 @@
 <view class="top_box">
-  <view class="top_2">
+  <view class="top_2" bindtap="go" data-go="/pages/login/login">
     <view class="avator">
       <open-data wx:if="{{ userinfo }}" type="userAvatarUrl"></open-data>
       <image wx:if="{{ !userinfo }}" src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/avator.png"></image>
     </view>
   </view>
-  <view class="top_1">
-    <view wx:if="{{ !userinfo }}" class="top_1_1" bindtap="go" data-go="/pages/login/login"> 点击登录 </view>
+  <view class="top_1" bindtap="go" data-go="/pages/login/login">
+    <view wx:if="{{ !userinfo }}" class="top_1_1"> 点击登录 </view>
     <view wx:if="{{ userinfo }}" class="top_1_1">
       <open-data type="userNickName"></open-data>
     </view>
