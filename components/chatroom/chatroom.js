@@ -1,4 +1,5 @@
 var time = require('../../utils/util.js')
+const app = getApp()
 const config = require('../../config')
 const FATAL_REBUILD_TOLERANCE = 10
 const SETDATA_SCROLL_TO_BOTTOM = {
@@ -63,9 +64,11 @@ Component({
           }
         }
       }
+      this.getUnreadMsg()
       setTimeout(() => {
         that.scrollToBottom(true)
       }, 500)
+
       // 连接socket
       wx.connectSocket({
         url: config.apis.chat + that.data.senderId,
@@ -311,6 +314,58 @@ Component({
         confirmText,
         success: (res) => {
           res.confirm && confirmCallback()
+        },
+      })
+    },
+    getUnreadMsg() {
+      const that = this
+      const id = this.properties.receiverId
+      wx.request({
+        url: config.apis.message + '/' + id,
+        method: 'GET',
+        header: {
+          token: app.token,
+        }, // 设置请求的 header
+        success: function (res) {
+          console.log('未读消息', res)
+          const { code, message, data } = res.data
+          if (code != 20000) {
+            wx.showToast({
+              icon: 'none',
+              title: message,
+              duration: 1000,
+            })
+            return false
+          }
+          const arrayList = data.rows
+          console.log('未读消息', arrayList)
+          const temp = []
+          for (let index = 0; index < arrayList.length; index++) {
+            const ele = arrayList[index]
+            const { senderId, receiverId, gmtCreate, messageContent } = ele
+            const one = {
+              senderId: senderId,
+              receiverId: receiverId,
+              text: messageContent,
+              sendTime: gmtCreate,
+            }
+            temp.push(one)
+          }
+
+          that.setData(
+            {
+              chatQueue: [...that.data.chatQueue, ...temp],
+            },
+            () => {
+              console.log('保存聊天记录', that.data.chatQueue)
+            }
+          )
+        },
+        fail: function () {
+          // fail
+        },
+        complete: function () {
+          // complete
         },
       })
     },

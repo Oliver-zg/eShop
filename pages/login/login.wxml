@@ -1,6 +1,6 @@
 <view class="top-bg">
 		<!-- <view class="" hover-class="none" hover-stop-propagation="false"> -->
-		<image class="about top-left" src="/images/right.png" bindtap="back" />
+		<image class="about top-left" src="https://eshop2022.oss-cn-beijing.aliyuncs.com/pic/images/right.png" bindtap="back" />
 		<!-- </view> -->
 </view>
 <view class="contain">

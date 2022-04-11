@@ -19,7 +19,8 @@ let apis = {
   payOrder: host + '/order/payOrder/',
   myPurchasedCommodity: host + '/order/myPurchasedCommodity/',
   receiveOrder: host + '/order/receiveOrder/',
-  getOrder: host + '/order/getOrder/'
+  getOrder: host + '/order/getOrder/',
+  message: host + '/message',
 }
 
 let data = {
