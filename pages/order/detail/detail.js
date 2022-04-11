@@ -15,86 +15,78 @@ Page({
     appreciateCode: '',
     address: '',
     buyerInfo: [],
+    commodityId: '',
+    sellerInfo: {},
+    commodity: {},
+    imageUrls: [],
   },
   onLoad: function (e) {
-    if (app.openid) {
-      this.setData({
-        openid: app.openid,
-      })
-    } else {
-      console.log('no openid')
-      wx.showModal({
-        title: '温馨提示',
-        content: '该功能需要注册方可使用，是否马上去注册',
-        success(res) {
-          if (res.confirm) {
-            wx.navigateTo({
-              url: '/pages/login/login',
+    this.data.commodityId = e.id
+    this.getcommodityDetail(e.id)
+  },
+    //获取商品详情
+    getcommodityDetail(id) {
+      let that = this
+      console.log('获取商品详情id', id)
+      console.log('app.token', app.token)
+      wx.request({
+        url: config.apis.getCommodityList + '/' + id,
+        data: {},
+        method: 'GET',
+        header: { token: app.token }, // 设置请求的 header
+        success: function (res) {
+          console.log('获取商品详情', res)
+          const { code, message, data } = res.data
+          if (code != 20000) {
+            wx.showToast({
+              icon: 'none',
+              title: message,
+              duration: 1000,
             })
+            return false
           }
+          console.log('轮播', data.commodity.commodityCover.split(','))
+          that.setData({
+            commodity: data.commodity, // 商品详情
+            imageUrls: data.commodity.commodityCover.split(','),
+          })
+          that.getSeller(data.commodity.userId)
         },
       })
-      return false
-    }
-    this.getdetail(e.id)
-  },
+    },
+    //获取卖家信息
+    getSeller(userId) {
+      let that = this
+      console.log('user', userId)
+      wx.request({
+        url: config.apis.getOtherUserInfo + '/' + userId,
+        data: {},
+        method: 'GET',
+        header: {}, // 设置请求的 header
+        success: function (res) {
+          console.log('获取其他用户详情', res)
+          const { code, message, data } = res.data
+          if (code != 20000) {
+            wx.showToast({
+              icon: 'none',
+              title: message,
+              duration: 1000,
+            })
+            return false
+          }
+          that.setData({
+            sellerInfo: data.userInfo, // 卖家详情
+            sellerId: data.userInfo.id,
+          })
+        },
+      })
+    },
 
   //回到首页
   home() {
     wx.switchTab({
       url: '/pages/index/index',
     })
-  },
-  //获取订单详情
-  getdetail(_id) {
-    let that = this
-    db.collection('order')
-      .doc(_id)
-      .get({
-        success(e) {
-          that.setData({
-            creatTime: config.formTime(e.data.creat),
-            detail: e.data,
-          })
-          that.getSeller(e.data.seller)
-        },
-        fail() {
-          wx.showToast({
-            title: '获取失败，请稍后到订单中心内查看',
-            icon: 'none',
-          })
-        },
-      })
-  },
-  //获取卖家信息
-  getSeller(m) {
-    let that = this
-    db.collection('user')
-      .where({
-        _openid: m,
-      })
-      .get({
-        success: function (res) {
-          wx.hideLoading()
-          that.setData({
-            userinfo: res.data[0],
-          })
-        },
-      })
-
-    db.collection('appreciatecode')
-      .where({
-        _openid: m,
-      })
-      .get({
-        success: function (res) {
-          wx.hideLoading()
-          that.setData({
-            appreciateCode: res.data[0].bigImg,
-          })
-          console.log(res.data[0].bigImg)
-        },
-      })
   },
 
   /**
@@ -122,28 +114,6 @@ Page({
         this.setData({
           buyerInfo: res.data[0].info,
         })
-      })
-  },
-  //发送模板消息到指定用户,推送之前要先获取用户的openid
-  send() {
-    let that = this
-    wx.cloud
-      .callFunction({
-        name: 'sendMsg',
-        data: {
-          openid: that.data.detail.seller,
-          status: '买家已确认收货，请确认是否收到钱款', //0在售；1买家已付款，但卖家未发货；2买家确认收获，交易完成；
-          address: that.data.address,
-          describe: that.data.detail.bookinfo.describe,
-          good: that.data.detail.bookinfo.good,
-          nickName: that.data.buyerInfo.nickName,
-        },
-      })
-      .then((res) => {
-        console.log('推送消息成功', res)
-      })
-      .catch((res) => {
-        console.log('推送消息失败', res)
       })
   },
 

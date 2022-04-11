@@ -23,7 +23,7 @@ Page({
                         id: 1,
                   },
                   {
-                        name: '待发货',
+                        name: '已发货',
                         id: 2,
                   },
                   {
@@ -49,10 +49,9 @@ Page({
   },
   //跳转详情页
   godetail(e) {
-    let that = this
-    let detail = e.currentTarget.dataset.id
+    let commodityId = e.currentTarget.dataset.id
     wx.navigateTo({
-      url: '/pages/order/detail/detail?id=' + detail,
+      url: '/pages/order/detail/detail?id=' + commodityId,
     })
   },
   onShow() {
@@ -71,7 +70,7 @@ Page({
     const { page, limit } = this.data
     console.log('status', status)
     wx.request({
-      url: config.apis.myPurchasedCommodity + page + '/' + limit,
+      url: config.apis.myPurchasedCommodity + page + '/' + limit + `${status !== '' ? '?orderStatus=' + status : ''}`,
       // data: {
       //   orderStatus: status,
       // },
@@ -111,80 +110,52 @@ Page({
       })
     }
   },
-  //取消订单(仅当订单为交易中时候，取消后卖家状态恢复)
-  cancel(ord) {
-    let that = this
-    let detail = ord.currentTarget.dataset.ord
-    that.setData({
-      detail: detail,
-    })
-    that.getAddress()
-    wx.showModal({
-      title: '温馨提示',
-      content: '您确认要取消并删除该订单吗',
-      success(res) {
-        if (res.confirm) {
-          wx.showLoading({
-            title: '正在处理',
-          })
-          wx.cloud.callFunction({
-            name: 'removeOrder',
-            data: {
-              _id: detail._id,
-            },
-            success: (res) => {
-              wx.showToast({
-                title: '取消订单成功',
-                icon: 'success',
-                duration: 1000,
-              })
-              that.sendCancel(that.data.detail.seller)
-              that.onShow()
-            },
-            fail(e) {
-              wx.showToast({
-                title: '发生异常，请及时和管理人员联系处理',
-                icon: 'none',
-              })
-            },
-          })
-          //调用node函数去修改publish的状态
-          wx.cloud.callFunction({
-            // 云函数名称
-            name: 'node',
-            // 传给云函数的参数
-            data: {
-              _id: detail._id,
-              status: 0,
-            },
-            success: function (res) {
-              console.log('cancel(ord)输出的' + res)
-            },
-            fail() {
-              wx.showToast({
-                title: '发生异常，请及时和管理人员联系处理',
-                icon: 'none',
-              })
-            },
-          })
-        }
-      },
-    })
-    console.log(that.data.detail.seller)
-  },
+  //取消订单
+  cancel(e) {
+      let that = this
+      let id = e.currentTarget.dataset.ord
+      wx.showModal({
+        title: '温馨提示',
+        content: '您确认要取消此订单吗？',
+        success(res) {
+          if (res.confirm) {
+            wx.showLoading({
+              title: '正在处理',
+            })
+            wx.request({
+              url: config.apis.cancelOrder + id,
+              header: {
+                token: app.token,
+              },
+              method: 'POST',
+              success: function (res) {
+                wx.hideLoading()
+                const { code, message } = res.data
+                if (code != 20000) {
+                  wx.showToast({
+                    icon: 'none',
+                    title: message,
+                    duration: 1000,
+                  })
+                  return false
+                }
+                that.getlist()
+              },
+            })
+            wx.hideLoading()
+          }
+        },
+      })
+    },
 
   //下拉刷新
   onPullDownRefresh() {
     this.getlist()
   },
   //确认收货
-  confirm(ord) {
+  confirm(e) {
     let that = this
-    let detail = ord.currentTarget.dataset.ord
-    that.setData({
-      detail: detail,
-    })
-    that.getAddress()
+    let id = e.currentTarget.dataset.ord
     wx.showModal({
       title: '温馨提示',
       content: '您确认已收货吗',
@@ -193,44 +164,28 @@ Page({
           wx.showLoading({
             title: '正在处理',
           })
-          wx.cloud.callFunction({
-            // 云函数名称
-            name: 'node',
-            // 传给云函数的参数
-            data: {
-              _id: detail._id,
-              status: 5, //状态5为等待卖家确认交易中，也就是在确认收货后
+          wx.request({
+            url: config.apis.receiveOrder + id,
+            header: {
+              token: app.token,
             },
+            method: 'POST',
             success: function (res) {
-              wx.showToast({
-                title: '确认收货成功',
-                icon: 'success',
-                duration: 1000,
-              })
-              that.send()
+              console.log("确认收货",res)
+              wx.hideLoading()
+              const { code, message } = res.data
+              if (code != 20000) {
+                wx.showToast({
+                  icon: 'none',
+                  title: message,
+                  duration: 1000,
+                })
+                return false
+              }
               that.getlist()
-              console.log('调用云函数成功！')
-            },
-            fail() {
-              console.log('调用云函数失败！')
             },
           })
-          db.collection('order')
-            .doc(detail._id)
-            .update({
-              data: {
-                status: 5, //状态5为等待卖家确认交易中，也就是在确认收货后
-              },
-              success() {
-                that.getList()
-              },
-              fail() {
-                wx.showToast({
-                  title: '操作失败',
-                  icon: 'none',
-                })
-              },
-            })
+          wx.hideLoading()
         }
       },
     })

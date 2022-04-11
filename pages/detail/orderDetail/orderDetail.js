@@ -53,12 +53,6 @@ Page({
         })
         that.getSeller(data.commodity.userId)
       },
-      fail: function () {
-        // fail
-      },
-      complete: function () {
-        // complete
-      },
     })
   },
   //获取卖家信息
@@ -85,12 +79,6 @@ Page({
           sellerInfo: data.userInfo, // 卖家详情
           sellerId: data.userInfo.id,
         })
-      },
-      fail: function () {
-        // fail
-      },
-      complete: function () {
-        // complete
       },
     })
   },
