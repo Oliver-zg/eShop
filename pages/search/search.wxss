@@ -40,8 +40,8 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background:#fbbd08;
-      color: #fff;
+      background:#fbecc0;
+      color: #545455;
       font-size: 28rpx;
       border-radius: 0 33rpx 33rpx 0;
       letter-spacing: 4rpx;

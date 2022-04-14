@@ -146,7 +146,7 @@ Page({
   gooo() {
     wx.showToast({
       icon: 'none',
-      title: '功能正在开发中',
+      title: '暂未开放',
       duration: 1000,
     })
   },

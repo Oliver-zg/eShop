@@ -107,7 +107,7 @@
       color: #fbbd08;
       font-size: 32rpx !important;
       font-weight: 600;
-      border-bottom: 4rpx solid #70f3ff !important;
+      border-bottom: 4rpx solid #fbbd08 !important;
 }
 
 .kind_img {
@@ -189,17 +189,16 @@
 }
 
 .card_poster {
-      width: 250rpx;
-      height: 250rpx;
+      width: 300rpx;
+      height: 300rpx;
+      border-radius:10rpx ;
 }
 
 .card_title {
-      width: 100%;
-      font-size: 30rpx;
-      letter-spacing: 4rpx;
-      margin-top: 20rpx;
-      margin-left: 30rpx;
-      line-height: 45rpx;
+      /* width: 100%; */
+      align-self: flex-start;
+      margin: 16rpx 0 10rpx 20rpx;
+      font-size: 32rpx;
 }
 
 .card_author {
@@ -211,11 +210,10 @@
 }
 
 .card_between {
-      margin-top: 5rpx;
-      width: 100%;
+      margin:0 28rpx;
+      width: calc(100% - 28rpx);
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
 }
 
 .card_price {
@@ -242,6 +240,7 @@
 .list_poster {
       width: 230rpx;
       height: 230rpx;
+      border-radius: 10rpx;
 }
 
 .list_content {
@@ -250,7 +249,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 0 10rpx;
+      padding: 0 20rpx;
       box-sizing: border-box;
 }
 
@@ -264,8 +263,6 @@
 .list_title {
       width: 100%;
       font-size: 32rpx;
-      letter-spacing: 3rpx;
-      line-height: 45rpx;
 }
 
 .list_author {

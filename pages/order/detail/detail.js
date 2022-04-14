@@ -1,7 +1,5 @@
 const app = getApp()
-const db = wx.cloud.database()
 const config = require('../../../config.js')
-const _ = db.command
 Page({
   /**
    * 页面的初始数据

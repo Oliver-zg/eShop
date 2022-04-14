@@ -1,7 +1,5 @@
 const app = getApp()
-// const db = wx.cloud.database()
 const config = require('../../config.js')
-// const _ = db.command
 Page({
   /**
    * 页面的初始数据
@@ -45,25 +43,7 @@ Page({
   },
   //最新推荐
   getnew() {
-    let that = this
-    db.collection('publish')
-      .where({
-        status: 0,
-        dura: _.gt(new Date().getTime()),
-      })
-      .orderBy('creat', 'desc')
-      .get({
-        success: function (res) {
-          let newlist = res.data
-          //限定5个推荐内容
-          if (newlist.length > 5) {
-            newlist.length = 5
-          }
-          that.setData({
-            newlist: newlist,
-          })
-        },
-      })
+
   },
   //跳转详情
   detail(e) {
@@ -123,28 +103,7 @@ Page({
       },
     })
     wx.hideLoading()
-    // db.collection('publish')
-    //   .where({
-    //     status: 0,
-    //     dura: _.gt(new Date().getTime()),
-    //     key: db.RegExp({
-    //       regexp: '.*' + key + '.*',
-    //       options: 'i',
-    //     }),
-    //   })
-    //   .orderBy('creat', 'desc')
-    //   .limit(20)
-    //   .get({
-    //     success(e) {
-    //       wx.hideLoading()
-    //       that.setData({
-    //         blank: true,
-    //         page: 0,
-    //         list: e.data,
-    //         nomore: false,
-    //       })
-    //     },
-    //   })
+    
   },
   onReachBottom() {
     this.more()
@@ -201,42 +160,5 @@ Page({
     } else {
       var collegeid = that.data.collegeCur + '' //小程序搜索必须对应格式
     }
-    db.collection('publish')
-      .where({
-        status: 0,
-        dura: _.gt(new Date().getTime()),
-        key: db.RegExp({
-          regexp: '.*' + that.data.key + '.*',
-          options: 'i',
-        }),
-      })
-      .orderBy('creat', 'desc')
-      .skip(page * 20)
-      .limit(20)
-      .get({
-        success: function (res) {
-          if (res.data.length == 0) {
-            that.setData({
-              nomore: true,
-            })
-            return false
-          }
-          if (res.data.length < 20) {
-            that.setData({
-              nomore: true,
-            })
-          }
-          that.setData({
-            page: page,
-            list: that.data.list.concat(res.data),
-          })
-        },
-        fail() {
-          wx.showToast({
-            title: '获取失败',
-            icon: 'none',
-          })
-        },
-      })
   },
 })

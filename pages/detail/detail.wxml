@@ -30,23 +30,13 @@
 <!-- 发布信息 -->
 <view hidden="{{!first_title}}">
   <view class="user_box">
-    <!-- <image lazy-load src="{{userinfo.info.avatarUrl}}"></image> -->
     <image lazy-load src="{{sellerInfo.avatar}}"></image>
     <view class="des_box">
       <view class="user_name">{{sellerInfo.nickname}}</view>
-      <!-- <view class="local_box">
-        <image src="/images/local.png"></image>
-        <view>{{sellerInfo.city}}</view>
-      </view> -->
     </view>
-    <!-- <view class="sex">
-      <image lazy-load src="{{userinfo.gender==0?'/images/none.png':(userinfo.gender==1?'/images/boy.png':'/images/girl.png')}}"></image>
-    </view> -->
   </view>
   <view class="time_box">
     <view class="kind">{{publishinfo.commodity_category}}</view>
-    <!-- <view class="kind">{{collegeName.name}}类物品</view> -->
-    <!-- <view class="time">发布于{{morejs.timelog(publishinfo.creat)}}</view> -->
     <view class="time">发布于{{commodity.gmtModified}}</view>
   </view>
   <view class="deliver_box">
@@ -58,9 +48,6 @@
       <view class="deliver_title">卖家备注：{{commodity.commodityRemark}}</view>
     </view>
   </view>
-  <!-- <view class="palceInput_box" wx:if="{{commodity.commodityPickupWay==1}}">
-    <input bindinput="placeInput" placeholder="卖家可以邮寄，请填写您的收货地址"></input>
-  </view> -->
   <!-- 留言列表 -->
 <view >
   <view class="list_box" >
@@ -99,10 +86,6 @@
       <view class="detail_title">物品描述:</view>
       <view class="detail_content">{{commodity.commodityDescription}}</view>
     </view>
-    <!-- <view class="detail_card">
-      <view class="detail_title">卖家备注:</view>
-      <view class="detail_content">{{commodity.commodityRemark}}</view>
-    </view> -->
     <!-- 物品详情预览 -->
     <view class="detail_card">
       <view class="detail_title">图片预览:</view>

@@ -1,7 +1,5 @@
 const app = getApp()
-const db = wx.cloud.database()
 const config = require('../../../config.js')
-const _ = db.command
 Page({
   /**
    * 页面的初始数据
@@ -200,43 +198,5 @@ Page({
     }
     let page = that.data.page + 1
     let status = that.data.tabid
-    // if (status == 0) {
-    //   var statusid = _.neq(0) //除-2之外所有
-    // } else {
-    //   var statusid = parseInt(status) //小程序搜索必须对应格式
-    // }
-    // db.collection('order')
-    //   .where({
-    //     status: statusid,
-    //     _openid: app.openid,
-    //   })
-    //   .orderBy('creat', 'desc')
-    //   .skip(page * 20)
-    //   .limit(20)
-    //   .get({
-    //     success: function (res) {
-    //       if (res.data.length == 0) {
-    //         that.setData({
-    //           nomore: true,
-    //         })
-    //         return false
-    //       }
-    //       if (res.data.length < 20) {
-    //         that.setData({
-    //           nomore: true,
-    //         })
-    //       }
-    //       that.setData({
-    //         page: page,
-    //         list: that.data.list.concat(res.data),
-    //       })
-    //     },
-    //     fail() {
-    //       wx.showToast({
-    //         title: '获取失败',
-    //         icon: 'none',
-    //       })
-    //     },
-    //   })
   },
 })

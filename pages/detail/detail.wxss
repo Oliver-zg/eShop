@@ -451,7 +451,7 @@
 .imagedetail{
       width: 90%;
       margin: 10rpx;
-
+      border-radius: 10rpx;
 }
 .line{  
       padding: 0 20px 0;  

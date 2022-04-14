@@ -278,25 +278,6 @@ Component({
     },
 
     async onScrollToUpper() {
-      // if (this.db && this.data.chats.length) {
-      //   const { collection } = this.properties
-      //   const _ = this.db.command
-      //   const { data } = await this.db
-      //     .collection(collection)
-      //     .where(
-      //       this.mergeCommonCriteria({
-      //         sendTimeTS: _.lt(this.data.chats[0].sendTimeTS),
-      //       })
-      //     )
-      //     .orderBy('sendTimeTS', 'desc')
-      //     .get()
-      //   this.data.chats.unshift(...data.reverse())
-      //   this.setData({
-      //     chats: this.data.chats,
-      //     scrollToMessage: `item-${data.length}`,
-      //     scrollWithAnimation: false,
-      //   })
-      // }
     },
 
     async try(fn, title) {

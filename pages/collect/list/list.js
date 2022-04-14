@@ -1,7 +1,5 @@
 const app = getApp()
-// const db = wx.cloud.database()
 const config = require('../../../config')
-// const _ = db.command
 Page({
   /**
    * 页面的初始数据
@@ -122,37 +120,6 @@ Page({
       return false
     }
     let page = that.data.page + 1
-    // db.collection('publish')
-    //   .where({
-    //     _openid: app.openid,
-    //   })
-    //   .orderBy('creat', 'desc')
-    //   .skip(page * 20)
-    //   .limit(20)
-    //   .get({
-    //     success: function (res) {
-    //       if (res.data.length == 0) {
-    //         that.setData({
-    //           nomore: true,
-    //         })
-    //         return false
-    //       }
-    //       if (res.data.length < 20) {
-    //         that.setData({
-    //           nomore: true,
-    //         })
-    //       }
-    //       that.setData({
-    //         page: page,
-    //         list: that.data.list.concat(res.data),
-    //       })
-    //     },
-    //     fail() {
-    //       wx.showToast({
-    //         title: '获取失败',
-    //         icon: 'none',
-    //       })
-    //     },
-    //   })
+
   },
 })

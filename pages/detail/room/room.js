@@ -65,9 +65,6 @@ Page({
     if (app.openid) {
       return app.openid
     }
-    const { result } = await wx.cloud.callFunction({
-      name: 'login',
-    })
     return result.openid
   },
 

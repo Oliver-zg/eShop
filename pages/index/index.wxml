@@ -84,7 +84,7 @@
   <view class="card_grid">
     <block wx:for="{{list}}" wx:key="id">
       <view class="card_one" bindtap="detail" data-id="{{item.id}}">
-        <image lazy-load class="card_poster" src="{{item.img}}"></image>
+        <image lazy-load class="card_poster" mode="aspectFill" src="{{item.img}}"></image>
         <view class="card_title text-cut">{{item.name}}</view>
         <view class="card_between">
           <view class="card_price">￥{{item.money}}元</view>

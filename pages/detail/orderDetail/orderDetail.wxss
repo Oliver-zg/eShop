@@ -41,6 +41,8 @@ page {
   flex-direction: column;
   box-sizing: border-box;
   padding: 40rpx 25rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2px 12px 0 rgb(218, 218, 218)
 }
 
 .top_over {

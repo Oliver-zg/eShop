@@ -232,16 +232,6 @@ Page({
     }
   },
   getTip() {
-    let that = this
-    // db.collection('Tip')
-    //   .where({})
-    //   .get({
-    //     success: function (res) {
-    //       that.setData({
-    //         indexTip: res.data[0].tip,
-    //       })
-    //       console.log('zhelishixiaoxi' + res)
-    //     },
-    //   })
+
   },
 })

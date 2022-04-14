@@ -1,4 +1,3 @@
-// const db = wx.cloud.database()
 const app = getApp()
 const config = require('../../config.js')
 const MAX_IMG_NUM = 5
@@ -313,31 +312,7 @@ Page({
       },
     })
   },
-  // getCodeFromSet() {
-  //   let that = this
-  //   let openid = app.openid
-  //   console.log(openid)
-  //   db.collection('appreciatecode')
-  //     .where({
-  //       _openid: openid,
-  //     })
-  //     .get()
-  //     .then((res) => {
-  //       if (res.data.length > 0) {
-  //         that.setData({
-  //           isExist: true,
-  //           bigImg: res.data[0].bigImg,
-  //         })
-  //         console.log(res.data[0].bigImg)
-  //         console.log('isExist---->' + that.data.isExist)
-  //       } else {
-  //         that.setData({
-  //           isExist: false,
-  //         })
-  //         console.log('isExist---->' + that.data.isExist)
-  //       }
-  //     })
-  // },
+  
   doUpload(filePath) {
     console.log('filePath', filePath)
     const that = this
@@ -389,32 +364,6 @@ Page({
         // complete
       },
     })
-    // var timestamp = (new Date()).valueOf();
-    // const cloudPath = 'goods-pic/' + app.openid + '/' + Math.floor(Math.random() * 10000 + 10000) + '.png'
-
-    // wx.cloud
-    //   .uploadFile({
-    //     cloudPath,
-    //     filePath,
-    //   })
-    //   .then((res) => {
-    //     console.log('[上传文件] 成功：', res)
-    //     const { params } = that.data
-    //     const { imgUrl } = params
-    //     imgUrl.push(res.fileID)
-    //     params['imgUrl'] = imgUrl
-    //     that.setData({
-    //       imgUrl,
-    //     })
-    //   })
-    //   .catch((error) => {
-    //     console.error('[上传文件] 失败：', error)
-    //     wx.showToast({
-    //       icon: 'none',
-    //       title: '上传失败',
-    //       duration: 1000,
-    //     })
-    //   })
   },
 
   chooseImage: function () {

@@ -1,7 +1,5 @@
 const app = getApp()
-const db = wx.cloud.database()
 const config = require('../../../config.js')
-const _ = db.command
 Page({
       data: {
             // list: JSON.parse(config.data).jlist,
@@ -194,27 +192,7 @@ Page({
 
   //删除订单
   delete(ord) {
-    let that = this
-    let detail = ord.currentTarget.dataset.ord
-    wx.showModal({
-      title: '温馨提示',
-      content: '您确认要删除此订单吗',
-      success(res) {
-        if (res.confirm) {
-          wx.showLoading({
-            title: '正在处理',
-          })
-          db.collection('order')
-            .doc(detail._id)
-            .remove({
-              success() {
-                that.getlist()
-              },
-              fail: console.error,
-            })
-        }
-      },
-    })
+   
   },
   //至顶
   gotop() {
@@ -244,38 +222,5 @@ Page({
     } else {
       var statusid = parseInt(status) //小程序搜索必须对应格式
     }
-    db.collection('order')
-      .where({
-        status: statusid,
-        _openid: app.openid,
-      })
-      .orderBy('creat', 'desc')
-      .skip(page * 20)
-      .limit(20)
-      .get({
-        success: function (res) {
-          if (res.data.length == 0) {
-            that.setData({
-              nomore: true,
-            })
-            return false
-          }
-          if (res.data.length < 20) {
-            that.setData({
-              nomore: true,
-            })
-          }
-          that.setData({
-            page: page,
-            list: that.data.list.concat(res.data),
-          })
-        },
-        fail() {
-          wx.showToast({
-            title: '获取失败',
-            icon: 'none',
-          })
-        },
-      })
   },
 })

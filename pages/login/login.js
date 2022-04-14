@@ -1,4 +1,3 @@
-const db = wx.cloud.database()
 const app = getApp()
 const config = require('../../config.js')
 Page({
@@ -38,7 +37,6 @@ Page({
     //下面这种办法无法修改页面数据
     /* this.data.ids = e.detail.value;*/
   },
-
   getUserProfile(e) {
     let that = this
     wx.getUserProfile({
@@ -85,6 +83,9 @@ Page({
           },
         })
       },
+      fail:(res)=>{
+          console.log(res)
+      }
     })
   },
   //更新用户信息
