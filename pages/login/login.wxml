@@ -7,7 +7,7 @@
 <view class="contain">
     <view class="card">
         <view class="title">登录注册</view>
-        <button class="confirm" open-type='getUserInfo' bindtap="getUserProfile">微信一键登录</button>
+        <button class="confirm" bindtap="getUserProfile">微信一键登录</button>
         <!-- </view> -->
         <!-- <view class="contact">
 						<input type="number" bindinput="qqInput" value="{{qqnum}}" maxlength="20" placeholder-class="pache" placeholder="输入验证码" />

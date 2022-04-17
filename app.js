@@ -26,4 +26,7 @@ App({
       url: '/pages/index/index'
     })
   },
+  onShow(){
+      console.log('--------------------------------------')
+  }
 })
