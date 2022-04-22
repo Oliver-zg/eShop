@@ -51,15 +51,15 @@ function commentTimeHandle(dateStr) {
 }
 
 function format(dateStr) {
-  var publishTime = dateStr,
-    date = getDate(publishTime), //获取dateStr的标准格式 console.log(date) 打印结果  Thu Sep 06 2018 18:47:00 GMT+0800 (中国标准时间)
-    // 获取date 中的 年 月 日 时 分 秒
-    Y = date.getFullYear(),
-    M = date.getMonth() + 1,
-    D = date.getDate(),
-    H = date.getHours(),
-    m = date.getMinutes(),
-    s = date.getSeconds()
+  publishTime = Number(dateStr)
+  var date = getDate(publishTime) //获取dateStr的标准格式 console.log(date) 打印结果  Thu Sep 06 2018 18:47:00 GMT+0800 (中国标准时间)
+  // 获取date 中的 年 月 日 时 分 秒
+  var Y = date.getFullYear()
+  var M = date.getMonth() + 1
+  var D = date.getDate()
+  var H = date.getHours()
+  var m = date.getMinutes()
+  var s = date.getSeconds()
   // 对 月 日 时 分 秒 小于10时, 加0显示 例如: 09-09 09:01
   if (M < 10) {
     M = '0' + M
